@@ -14,9 +14,9 @@ func main() {
 	command := ""
 	args := os.Args[1:] // remove app path from args
 
-	// We expect a subcommand and a set of files in args
+	// We expect either a username or a subcommand and then a set of files in args
 	if len(args) > 0 {
-		command = args[1]
+		command = args[0]
 		args = args[1:]
 	}
 
@@ -29,11 +29,16 @@ func main() {
 	case "identity", "i":
 		err = identity(args)
 	case "version", "v":
-		version(args)
+		version()
 	case "help", "h":
-		help(args)
+		help()
 	default:
-		help(args)
+		// Default action is to send to (if we have a username and files)
+		if len(args) > 0 {
+			err = sendTo(command, args)
+		} else {
+			help()
+		}
 	}
 
 	if err != nil {
@@ -41,27 +46,49 @@ func main() {
 	}
 }
 
-func version(args []string) error {
+func version() {
 	fmt.Printf("\n\t-----\n\tSend to client - version:%s\n\t-----\n", v)
-	return nil
 }
 
-func help(args []string) error {
-	version(args)
+func usage() string {
+	return fmt.Sprintf("\tUsage: sendto kennygrant [files] - send files to the username kennygrant\n")
+}
+
+func help() {
+	version()
+	fmt.Printf(usage())
+	fmt.Printf("\t-----\n")
+	fmt.Printf("\tCommands:\n")
 	fmt.Printf("\tsendto version - display version\n")
 	fmt.Printf("\tsendto [username] [files] - encrypt files for a given user\n")
-	fmt.Printf("\tsendto decrypt [file] - decrypt a file\n")
+	fmt.Printf("\tsendto encrypt [file] - encrypt a file\n")
+	//	fmt.Printf("\tsendto decrypt [file] - decrypt a file\n")
 	fmt.Printf("\tsendto identity [name] - sets default sender identity\n\n")
-	return nil
 }
 
+// decrypt files specified, using the user's private key
+// TODO: to support decryption we'd need access to private keys, perhaps leave this for hackathon
 func decrypt(args []string) error {
 	log.Printf("Sorry, this client does not yet support decrypt")
+
 	return nil
 }
 
+// encrypt the paths specified
 func encrypt(args []string) error {
+
 	log.Printf("Sorry, this client does not yet support encryption")
+	return nil
+}
+
+// The main path - send files held in args to recipient
+func sendTo(recipient string, args []string) error {
+	fmt.Printf("\nSending %d files to %s...\n\n", len(args), recipient)
+
+	if len(args) < 1 {
+		return fmt.Errorf("Not enough arguments - %s", usage())
+	}
+
 	return nil
 }
 
