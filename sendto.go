@@ -120,7 +120,7 @@ func SendTo(recipient string, args []string) error {
 	}
 
 	// Send the file to the recipient on the server
-	postURL := fmt.Sprintf("%s/files/upload", client.Config["server"])
+	postURL := fmt.Sprintf("%s/files/create", client.Config["server"])
 
 	fmt.Printf("Sending files for %s to %s\n", recipient, postURL)
 

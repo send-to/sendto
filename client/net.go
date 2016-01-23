@@ -75,10 +75,10 @@ func PostData(sender, recipient, file, url string) error {
 		return err
 	}
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("error %d posting file to %s", resp.StatusCode, url)
+		return fmt.Errorf("Error status %d posting file to %s\n", resp.StatusCode, url)
 	}
 
-	fmt.Printf("POSTED: %s %v", url, resp)
+	fmt.Printf("File sent to: %s %v\n", url, resp)
 
 	return nil
 
@@ -113,21 +113,3 @@ func addField(w *multipart.Writer, k, v string) error {
 	}
 	return nil
 }
-
-/*
-formData := url.Values{
-"from": []string{sender},
-}
-
-resp, err := http.PostForm(u, formData)
-if err != nil {
-return err
-}
-defer resp.Body.Close()
-
-if resp.StatusCode != http.StatusOK {
-return fmt.Errorf("error %d posting file to %s", resp.StatusCode, u)
-}
-
-return nil
-*/
