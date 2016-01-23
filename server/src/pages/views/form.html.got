@@ -1,0 +1,19 @@
+<div class="row pages_form">
+<form method="post" class="resource-update-form">
+    <section class="actions">
+        <input type="submit" class="button" value="Save">
+        <a class="button grey" href="javascript:history.back()">Cancel</a>
+    </section>
+  
+    <section class="inline-fields">
+        {{ field "Keywords" "keywords" .page.Keywords }}
+    {{ field "Name" "name" .page.Name }}
+{{ select "Status" "status" .page.Status .page.StatusOptions }}    {{ field "Summary" "summary" .page.Summary }}
+    {{ field "Url" "url" .page.Url }}
+
+    </section>
+    
+
+    <input name="authenticity-token" type="hidden" value="{{.csrf}}">
+</form>
+</div>

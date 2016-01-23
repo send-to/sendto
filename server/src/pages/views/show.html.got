@@ -1,0 +1,11 @@
+<article>
+<h1>{{ .page.Name }}</h1>
+<div class="text">
+    	<p>Keywords: {{ .page.Keywords }}</p>
+	<p>Name: {{ .page.Name }}</p>
+	<p>Status: {{ .page.Status }}</p>
+	<p>Summary: {{ .page.Summary }}</p>
+	<p>Url: {{ .page.Url }}</p>
+
+</div>
+</article>

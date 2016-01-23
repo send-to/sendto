@@ -210,6 +210,11 @@ func (m *File) Update(params map[string]string) error {
 
 // Destroy removes the record from the database
 func (m *File) Destroy() error {
+	// Sanity check on path
+
+	// First remove the file from disk
+	// os.Remove(m.Path)
+
 	return Query().Where("id=?", m.Id).Delete()
 }
 

@@ -1,0 +1,15 @@
+{{ if not .page.Id }}
+    <tr class="data-table-head">
+        <td>Id</td>
+        <td>Updated</td>
+        <td>Status</td>
+        <td>Actions</td>
+    </tr>
+{{ else }}
+    <tr {{ if odd .i }}class="odd"{{end}}>
+        <td>{{ .page.Id }}</td>
+        <td>{{ time .page.UpdatedAt }}</td>
+        <td>{{ .page.StatusDisplay }}</td>
+        <td><a href="{{ .page.URLUpdate }}">Edit Page</a></td>
+    </tr>
+{{ end }}

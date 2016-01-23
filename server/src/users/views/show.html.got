@@ -1,0 +1,13 @@
+<article>
+<h1>{{ .user.Name }}</h1>
+<div class="text">
+    	<p>Email: {{ .user.Email }}</p>
+	<p>Key: {{ .user.Key }}</p>
+	<p>Name: {{ .user.Name }}</p>
+	<p>Password: {{ .user.Password }}</p>
+	<p>Role: {{ .user.Role }}</p>
+	<p>Status: {{ .user.Status }}</p>
+	<p>Summary: {{ .user.Summary }}</p>
+
+</div>
+</article>
