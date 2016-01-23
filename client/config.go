@@ -101,3 +101,20 @@ func createFolder(name string) error {
 	p := filepath.Join(configPath(), name)
 	return os.MkdirAll(p, os.ModeDir|os.ModePerm)
 }
+
+// fileExists returns true if this file exists
+func fileExists(path string) bool {
+	_, err := os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	}
+	return true
+}
+
+// Return a nicely formatted string for the word files
+func filesString(i int) string {
+	if i > 1 {
+		return "files"
+	}
+	return "file"
+}
