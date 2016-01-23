@@ -98,18 +98,31 @@ func SendTo(recipient string, args []string) error {
 	}
 
 	// Notify the user that we're starting to send
-	files := "file"
-	if len(args) > 1 {
-		files = "files"
-	}
-	fmt.Printf("Sending %d %s to %s as %s...\n", len(args), files, recipient, config["sender"])
+	fmt.Printf("Sending %d %s to %s as %s...\n", len(args), filesString(len(args)), recipient, config["sender"])
 
-	// First check if we have our recipient's key on hand
-	key, err := loadKey(recipient)
+	// Fetch the recipient's key (from disk or server)
+	key, err := LoadKey(recipient)
+	if err != nil {
+		// Warn user in a nicer way here that key could not be found
+		return fmt.Errorf("Failed to find key:%s", err)
+	}
+
+	// Now that we have a key, encrypt our files
+	fmt.Printf("Loaded key for %s:\n%s\n", recipient, key)
+
+	// Zip and Encrypt our arguments (files or folders) using key
+	dataPath, err := EncryptFiles(args, key)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Loaded key:%s\n", key)
+	// Clean up by deleting the dataPath file - but be sure send is complete first
+	//defer deleteFile(dataPath)
+
+	// Send the file to the recipient on the server
+	err = PostData(recipient, dataPath)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
