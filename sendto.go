@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	"github.com/gophergala2016/sendto/client"
 )
 
 const (
@@ -21,7 +23,7 @@ func main() {
 	}
 
 	// Load our configuration
-	err := loadConfig()
+	err := client.LoadConfig()
 	if err != nil {
 		log.Fatalf("Sorry, an error occurred:\n\t%s", err)
 	}
@@ -98,10 +100,10 @@ func SendTo(recipient string, args []string) error {
 	}
 
 	// Notify the user that we're starting to send
-	fmt.Printf("Sending %d %s to %s as %s...\n", len(args), filesString(len(args)), recipient, config["sender"])
+	fmt.Printf("Sending %d %s to %s as %s...\n", len(args), filesString(len(args)), recipient, client.Config["sender"])
 
 	// Fetch the recipient's key (from disk or server)
-	keyPath, err := LoadKey(recipient)
+	keyPath, err := client.LoadKey(recipient)
 	if err != nil {
 		// Warn user in a nicer way here that key could not be found
 		return fmt.Errorf("Failed to find key:%s", err)
@@ -109,7 +111,7 @@ func SendTo(recipient string, args []string) error {
 	fmt.Printf("Loaded key for %s:\n%s\n", recipient, keyPath)
 
 	// Zip and Encrypt our arguments (files or folders) using key
-	dataPath, err := EncryptFiles(args, recipient, keyPath)
+	dataPath, err := client.EncryptFiles(args, recipient, keyPath)
 	if err != nil {
 		return err
 	}
@@ -118,7 +120,7 @@ func SendTo(recipient string, args []string) error {
 	//defer deleteFile(dataPath)
 
 	// Send the file to the recipient on the server
-	err = PostData(recipient, dataPath)
+	err = client.PostData(recipient, dataPath)
 	if err != nil {
 		return err
 	}
@@ -133,9 +135,17 @@ func Identity(args []string) error {
 	}
 
 	identity := args[0]
-	config["sender"] = identity
+	client.Config["sender"] = identity
 
 	fmt.Printf("Setting sender identity to:%s\n", identity)
 
-	return saveConfig()
+	return client.SaveConfig()
+}
+
+// Return a nicely formatted string for the word files
+func filesString(i int) string {
+	if i > 1 {
+		return "files"
+	}
+	return "file"
 }

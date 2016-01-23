@@ -1,4 +1,4 @@
-package main
+package client
 
 import (
 	"archive/zip"
@@ -11,7 +11,6 @@ import (
 	"golang.org/x/crypto/openpgp"
 	"golang.org/x/crypto/openpgp/armor"
 	"golang.org/x/crypto/openpgp/packet"
-	//	"golang.org/x/crypto/ssh/terminal"
 )
 
 // LoadKey loads the key associated with this username,
@@ -52,7 +51,7 @@ func LoadKey(recipient string) (string, error) {
 	return keyPath, nil
 }
 
-// EncryptFiles zips and encrypts our arguments (files or folders) using a public key
+// EncryptFiles zips then encrypts our arguments (files or folders) using a public key
 func EncryptFiles(args []string, recipient string, keyPath string) (string, error) {
 
 	// First open and parse recipient key
@@ -66,9 +65,8 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 	// Make the user files directory
 	createFolder(filepath.Join("files", recipient))
 
-	// Now create a file to write to
-	// caller might set this? ideally want to hash after encryption which isn't possible of course...
-	// must be a zip file.
+	// Should caller set the filename required for the zip?
+	// hash of username + time or something? Doesn't really matter but should be unique
 	name := "testing"
 	outPath := filepath.Join(configPath(), "files", recipient, fmt.Sprintf("%s.zip.gpg", name))
 	out, err := os.Create(outPath)
@@ -105,9 +103,10 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 			}
 			defer f.Close()
 
-			// Support unicode filenames
+			// Support unicode filenames by default
 			h := &zip.FileHeader{Name: p, Method: zip.Deflate, Flags: 0x800}
 			z, err := zipWriter.CreateHeader(h)
+			// Doesn't support unicode file names?
 			// z, err := zipWriter.Create(p)
 			if err != nil {
 				return err
@@ -161,8 +160,9 @@ func ParsePublicKey(keyPath string) (*openpgp.Entity, error) {
 	return to, nil
 }
 
-// DecryptFiles decrypts and unzips a file using a private key
+// DecryptFiles decrypts then unzips a file using a private key
 // and returns the path of the resulting file/folder on success
+// zip step should be optional TODO
 func DecryptFiles(p string, key string) (string, error) {
 
 	return "", nil
