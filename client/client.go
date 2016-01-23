@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 )
@@ -26,7 +27,7 @@ func main() {
 	case "decrypt", "d":
 		err = decrypt(args)
 	case "identity", "i":
-	//	err = identity(args)
+		err = identity(args)
 	case "version", "v":
 		version(args)
 	case "help", "h":
@@ -41,12 +42,16 @@ func main() {
 }
 
 func version(args []string) error {
-	log.Printf("The app version")
+	fmt.Printf("\n\t-----\n\tSend to client - version:%s\n\t-----\n", v)
 	return nil
 }
 
 func help(args []string) error {
-	log.Printf("The app help")
+	version(args)
+	fmt.Printf("\tsendto version - display version\n")
+	fmt.Printf("\tsendto [username] [files] - encrypt files for a given user\n")
+	fmt.Printf("\tsendto decrypt [file] - decrypt a file\n")
+	fmt.Printf("\tsendto identity [name] - sets default sender identity\n\n")
 	return nil
 }
 
@@ -57,5 +62,10 @@ func decrypt(args []string) error {
 
 func encrypt(args []string) error {
 	log.Printf("Sorry, this client does not yet support encryption")
+	return nil
+}
+
+func identity(args []string) error {
+	log.Printf("Sorry, this client does not yet support setting identity")
 	return nil
 }
