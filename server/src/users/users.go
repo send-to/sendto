@@ -20,13 +20,12 @@ type User struct {
 	Name     string
 	Password string
 	Role     int64
-	Status   int64
 	Summary  string
 }
 
 // AllowedParams returns an array of allowed param keys
 func AllowedParams() []string {
-	return []string{"status", "email", "key", "name", "password", "role", "status", "summary"}
+	return []string{"status", "email", "key", "name", "password", "role", "summary"}
 }
 
 // NewWithColumns creates a new user instance and fills it with data from the database cols provided
@@ -42,7 +41,6 @@ func NewWithColumns(cols map[string]interface{}) *User {
 	user.Name = validate.String(cols["name"])
 	user.Password = validate.String(cols["password"])
 	user.Role = validate.Int(cols["role"])
-	user.Status = validate.Int(cols["status"])
 	user.Summary = validate.String(cols["summary"])
 
 	return user

@@ -49,6 +49,11 @@ func HandleUpdate(context router.Context) error {
 	if err != nil {
 		return router.InternalError(err)
 	}
+
+	// Find the to user, by querying users on username or email
+	// Set the user id if found, else return 404 error, user not found
+
+	// TODO: Make *sure* this only accepts the params we want
 	err = file.Update(params.Map())
 	if err != nil {
 		return router.InternalError(err)

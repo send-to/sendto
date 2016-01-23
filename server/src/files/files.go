@@ -22,13 +22,12 @@ type File struct {
 	Path     string
 	Sender   string
 	SenderId int64
-	Status   int64
 	UserId   int64
 }
 
 // AllowedParams returns an array of allowed param keys
 func AllowedParams() []string {
-	return []string{"status", "path", "sender", "sender_id", "status", "user_id"}
+	return []string{"status", "path", "sender"}
 }
 
 // NewWithColumns creates a new file instance and fills it with data from the database cols provided
@@ -42,7 +41,6 @@ func NewWithColumns(cols map[string]interface{}) *File {
 	file.Path = validate.String(cols["path"])
 	file.Sender = validate.String(cols["sender"])
 	file.SenderId = validate.Int(cols["sender_id"])
-	file.Status = validate.Int(cols["status"])
 	file.UserId = validate.Int(cols["user_id"])
 
 	return file

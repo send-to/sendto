@@ -17,14 +17,13 @@ type Page struct {
 	status.ModelStatus
 	Keywords string
 	Name     string
-	Status   int64
 	Summary  string
 	Url      string
 }
 
 // AllowedParams returns an array of allowed param keys
 func AllowedParams() []string {
-	return []string{"status", "keywords", "name", "status", "summary", "url"}
+	return []string{"status", "keywords", "name", "summary", "url"}
 }
 
 // NewWithColumns creates a new page instance and fills it with data from the database cols provided
@@ -37,7 +36,6 @@ func NewWithColumns(cols map[string]interface{}) *Page {
 	page.Status = validate.Int(cols["status"])
 	page.Keywords = validate.String(cols["keywords"])
 	page.Name = validate.String(cols["name"])
-	page.Status = validate.Int(cols["status"])
 	page.Summary = validate.String(cols["summary"])
 	page.Url = validate.String(cols["url"])
 
