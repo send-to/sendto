@@ -88,6 +88,10 @@ func errHandler(context router.Context, e error) {
 		view.AddKey("error", err.Err)
 	}
 
+	// Set the status correctly for errors
+	context.Writer().WriteHeader(err.Status)
+
+	// Use our error template
 	view.Template("app/views/error.html.got")
 
 	context.Logf("#error %s\n", err)

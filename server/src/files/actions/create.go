@@ -33,13 +33,23 @@ func HandleCreate(context router.Context) error {
 		return router.NotAuthorizedError(err)
 	}
 
-	// Setup context
+	// Parse multipart first - must fix this to do it automatically
+	fileParams, err := context.ParamFiles("file")
+	if err != nil || len(fileParams) < 1 {
+		return router.InternalError(err, "Invalid file", "Sorry, the file upload failed.")
+	}
+	fh := fileParams[0]
+
+	// Now extract other params
 	params, err := context.Params()
 	if err != nil {
 		return router.InternalError(err)
 	}
 
-	id, err := files.Create(params.Map())
+	context.Logf("CREATE FILE:%v\n", params)
+
+	// We only consider the first file
+	id, err := files.Create(params.Map(), fh)
 	if err != nil {
 		return router.InternalError(err)
 	}

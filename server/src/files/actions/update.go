@@ -29,7 +29,7 @@ func HandleUpdateShow(context router.Context) error {
 	return view.Render()
 }
 
-// HandleUpdate handles the POST of the form to update a file
+// HandleUpdateShow handles the POST of the form to update a file
 func HandleUpdate(context router.Context) error {
 
 	// Find the file

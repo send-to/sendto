@@ -1,15 +1,15 @@
 {{ if not .file.Id }}
     <tr class="data-table-head">
-        <td>Id</td>
+        <td>Name</td>
+        <td>Sender</td>
         <td>Updated</td>
-        <td>Status</td>
-        <td>Actions</td>
+        <td></td>
     </tr>
 {{ else }}
     <tr {{ if odd .i }}class="odd"{{end}}>
-        <td>{{ .file.Id }}</td>
+        <td><a href="/files/{{.file.Id}}/download">{{ .file.Name }}</a></td>
+        <td>{{ .file.Sender }}</td>
         <td>{{ time .file.UpdatedAt }}</td>
-        <td>{{ .file.StatusDisplay }}</td>
-        <td><a href="{{ .file.URLUpdate }}">Edit File</a></td>
+        <td><a href="/files/{{.file.Id}}/update" method="post">Delete</a></td>
     </tr>
 {{ end }}

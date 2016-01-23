@@ -14,6 +14,7 @@ func setupRoutes(r *router.Router) {
 	r.Add("/files/{id:[0-9]+}/update", fileactions.HandleUpdateShow)
 	r.Add("/files/{id:[0-9]+}/update", fileactions.HandleUpdate).Post()
 	r.Add("/files/{id:[0-9]+}/destroy", fileactions.HandleDestroy).Post()
+	r.Add("/files/{id:[0-9]+}/download", fileactions.HandleDownload)
 	r.Add("/files/{id:[0-9]+}", fileactions.HandleShow)
 
 	// Set the default file handler

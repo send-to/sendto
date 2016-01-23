@@ -4,15 +4,18 @@
         <input type="submit" class="button" value="Save">
         <a class="button grey" href="javascript:history.back()">Cancel</a>
     </section>
-  
-    <section class="inline-fields">
-        {{ field "From" "from" .file.From }}
-    {{ field "Path" "path" .file.Path }}
-    {{ field "SignedBy" "signed_by" .file.SignedBy }}
-    {{ field "UserId" "user_id" .file.UserId }}
-
-    </section>
     
+      <section class="inline-fields">
+        {{ field "This file is for" "user_id" .file.UserId }}
+        {{ field "Your Name" "sender" .file.Sender }}
+        {{ if .current_user.Admin }}
+        {{ select "Status" "status" .file.Status .file.StatusOptions }}    
+        {{ end }}
+      </section>  
+        
+    <section class="wide-fields">
+      {{ field "Path" "path" .file.Path }}
+    </section>
 
     <input name="authenticity-token" type="hidden" value="{{.csrf}}">
 </form>

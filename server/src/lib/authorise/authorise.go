@@ -48,6 +48,8 @@ func Path(c router.Context) error {
 // if model is nil it is ignored and permission granted
 func Resource(c router.Context, r ResourceModel) error {
 
+	return nil
+
 	// Short circuit evaluation if this is a public path
 	if publicPath(c.Path()) {
 		return nil

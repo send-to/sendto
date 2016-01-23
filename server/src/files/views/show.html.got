@@ -1,9 +1,10 @@
 <article>
 <h1>{{ .file.Name }}</h1>
 <div class="text">
-    	<p>From: {{ .file.From }}</p>
-	<p>Path: {{ .file.Path }}</p>
-	<p>SignedBy: {{ .file.SignedBy }}</p>
+    	<p>Path: {{ .file.Path }}</p>
+	<p>Sender: {{ .file.Sender }}</p>
+	<p>SenderId: {{ .file.SenderId }}</p>
+	<p>Status: {{ .file.Status }}</p>
 	<p>UserId: {{ .file.UserId }}</p>
 
 </div>
