@@ -46,8 +46,6 @@ func HandleCreate(context router.Context) error {
 		return router.InternalError(err)
 	}
 
-	context.Logf("CREATE FILE:%v\n", params)
-
 	// We only consider the first file
 	id, err := files.Create(params.Map(), fh)
 	if err != nil {

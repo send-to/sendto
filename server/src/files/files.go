@@ -25,6 +25,12 @@ type File struct {
 	UserId   int64
 }
 
+// AllowedParamsCreate returns only one param which may be added on file upload (sender)
+// Other params are set after create
+func AllowedParamsCreate() []string {
+	return []string{"sender"}
+}
+
 // AllowedParams returns an array of allowed param keys
 func AllowedParams() []string {
 	return []string{"status", "path", "sender"}
@@ -59,7 +65,7 @@ func New() *File {
 func Create(params map[string]string, fh *multipart.FileHeader) (int64, error) {
 
 	// Remove params not in AllowedParams
-	params = model.CleanParams(params, AllowedParams())
+	params = model.CleanParams(params, AllowedParamsCreate())
 
 	// Check params for invalid values
 	err := validateParams(params)
