@@ -1,26 +1,14 @@
 package main
 
 import (
-	//	"archive/zip"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
-	"os/user"
-	"path/filepath"
-
-	//	"golang.org/x/crypto/openpgp"
-	//	"golang.org/x/crypto/openpgp/armor"
-	//	"golang.org/x/crypto/openpgp/packet"
-	//	"golang.org/x/crypto/ssh/terminal"
 )
 
 const (
 	v = "0.1"
 )
-
-var config map[string]string
 
 func main() {
 	command := ""
@@ -114,143 +102,28 @@ func SendTo(recipient string, args []string) error {
 	if len(args) > 1 {
 		files = "files"
 	}
-	fmt.Printf("Sending %d %s to %s...\n", len(args), files, recipient)
+	fmt.Printf("Sending %d %s to %s as %s...\n", len(args), files, recipient, config["sender"])
 
 	// First check if we have our recipient's key on hand
 	key, err := loadKey(recipient)
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Loaded key:%s", key)
+	fmt.Printf("Loaded key:%s\n", key)
 
-	/*
-		// Do something like this?
-			// prepare to encrypt our data
-			encoded, err := openpgp.Encrypt(out, []*openpgp.Entity{to}, from, hints, nil)
-			if err != nil {
-				return err
-			}
-
-			// Add files to a zip
-			zipper := zip.NewWriter(encOut)
-
-			t1, err := zipper.Create("test/test.txt")
-			err := zipper.Flush()
-			if err != nil {
-				return err
-			}
-
-			// close the encPipe to finish the process
-			err := encOut.Close()
-			if err != nil {
-				return err
-			}
-			// Send the file
-	*/
 	return nil
 }
 
 // Identity sets the default sender identity (as opposed to username)
 func Identity(args []string) error {
-	log.Printf("Sorry, this client does not yet support setting identity")
-	return nil
-}
-
-// loadKey loads the key associated with this username, if necessary fetching it from the internet
-// for now we just look in the ~/.sendto/users folder
-// don't use strings perhaps?
-func loadKey(recipient string) (string, error) {
-	fmt.Printf("Loading key for %s...\n", recipient)
-
-	return "hello key", nil
-}
-
-// loadConfig reads or creates our config file at ~/.sendto/config
-func loadConfig() error {
-
-	// Create our files folder to store files to send
-	err := createFolder("files")
-	if err != nil {
-		return err
+	if len(args) < 1 {
+		return fmt.Errorf("Identity command requires a sender name")
 	}
 
-	// Create our users folder to store public keys downloaded
-	err = createFolder("users")
-	if err != nil {
-		return err
-	}
+	identity := args[0]
+	config["sender"] = identity
 
-	// Load our config file (or create a new one with one entry - sender identity)
-	// First check it exists
-	file, err := ioutil.ReadFile(configFilePath())
-	if err == nil {
-		err = json.Unmarshal(file, &config)
-		if err != nil {
-			return err
-		}
-	}
+	fmt.Printf("Setting sender identity to:%s\n", identity)
 
-	// If no config create a config and save it
-	if len(config) == 0 {
-		err = setupConfig()
-		if err != nil {
-			return err
-		}
-
-		err = saveConfig()
-		if err != nil {
-			return err
-		}
-
-	}
-
-	return nil
-}
-
-// saves our config out to a file at ~/.sendto/config
-func saveConfig() error {
-	// Write out a json file representing our config map
-	configJSON, err := json.MarshalIndent(config, "", "\t")
-	if err != nil {
-		return err
-	}
-
-	// Write the config json file
-	err = ioutil.WriteFile(configFilePath(), configJSON, os.ModePerm)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func setupConfig() error {
-	config = make(map[string]string, 0)
-
-	// Get hold of the current user details
-	u, err := user.Current()
-	if err != nil {
-		return err
-	}
-	fmt.Printf("Setting default sender identity to:%s\n", u.Name)
-	config["sender"] = u.Name
-	return nil
-}
-
-func configPath() string {
-	usr, err := user.Current()
-	if err != nil {
-		log.Fatalf("Error loading config: %s\n", err)
-		return ""
-	}
-	return filepath.Join(usr.HomeDir, ".sendto")
-}
-
-func configFilePath() string {
-	return filepath.Join(configPath(), "config.json")
-}
-
-func createFolder(name string) error {
-	p := filepath.Join(configPath(), name)
-	return os.MkdirAll(p, os.ModeDir|os.ModePerm)
+	return saveConfig()
 }
