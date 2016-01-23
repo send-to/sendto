@@ -1,0 +1,10 @@
+<article>
+<h1>{{ .file.Name }}</h1>
+<div class="text">
+    	<p>From: {{ .file.From }}</p>
+	<p>Path: {{ .file.Path }}</p>
+	<p>SignedBy: {{ .file.SignedBy }}</p>
+	<p>UserId: {{ .file.UserId }}</p>
+
+</div>
+</article>

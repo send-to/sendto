@@ -2,10 +2,19 @@ package app
 
 import (
 	"github.com/fragmenta/router"
+	"github.com/gophergala2016/sendto/server/src/files/actions"
 )
 
 // Define routes for this app
 func setupRoutes(r *router.Router) {
+
+	r.Add("/files", fileactions.HandleIndex)
+	r.Add("/files/create", fileactions.HandleCreateShow)
+	r.Add("/files/create", fileactions.HandleCreate).Post()
+	r.Add("/files/{id:[0-9]+}/update", fileactions.HandleUpdateShow)
+	r.Add("/files/{id:[0-9]+}/update", fileactions.HandleUpdate).Post()
+	r.Add("/files/{id:[0-9]+}/destroy", fileactions.HandleDestroy).Post()
+	r.Add("/files/{id:[0-9]+}", fileactions.HandleShow)
 
 	// Set the default file handler
 	r.FileHandler = fileHandler

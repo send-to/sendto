@@ -1,0 +1,15 @@
+{{ if not .file.Id }}
+    <tr class="data-table-head">
+        <td>Id</td>
+        <td>Updated</td>
+        <td>Status</td>
+        <td>Actions</td>
+    </tr>
+{{ else }}
+    <tr {{ if odd .i }}class="odd"{{end}}>
+        <td>{{ .file.Id }}</td>
+        <td>{{ time .file.UpdatedAt }}</td>
+        <td>{{ .file.StatusDisplay }}</td>
+        <td><a href="{{ .file.URLUpdate }}">Edit File</a></td>
+    </tr>
+{{ end }}

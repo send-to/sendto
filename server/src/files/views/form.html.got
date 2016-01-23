@@ -1,0 +1,19 @@
+<div class="row files_form">
+<form method="post" class="resource-update-form">
+    <section class="actions">
+        <input type="submit" class="button" value="Save">
+        <a class="button grey" href="javascript:history.back()">Cancel</a>
+    </section>
+  
+    <section class="inline-fields">
+        {{ field "From" "from" .file.From }}
+    {{ field "Path" "path" .file.Path }}
+    {{ field "SignedBy" "signed_by" .file.SignedBy }}
+    {{ field "UserId" "user_id" .file.UserId }}
+
+    </section>
+    
+
+    <input name="authenticity-token" type="hidden" value="{{.csrf}}">
+</form>
+</div>
