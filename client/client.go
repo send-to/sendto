@@ -101,20 +101,19 @@ func SendTo(recipient string, args []string) error {
 	fmt.Printf("Sending %d %s to %s as %s...\n", len(args), filesString(len(args)), recipient, config["sender"])
 
 	// Fetch the recipient's key (from disk or server)
-	key, err := LoadKey(recipient)
+	keyPath, err := LoadKey(recipient)
 	if err != nil {
 		// Warn user in a nicer way here that key could not be found
 		return fmt.Errorf("Failed to find key:%s", err)
 	}
-
-	// Now that we have a key, encrypt our files
-	fmt.Printf("Loaded key for %s:\n%s\n", recipient, key)
+	fmt.Printf("Loaded key for %s:\n%s\n", recipient, keyPath)
 
 	// Zip and Encrypt our arguments (files or folders) using key
-	dataPath, err := EncryptFiles(args, key)
+	dataPath, err := EncryptFiles(args, recipient, keyPath)
 	if err != nil {
 		return err
 	}
+
 	// Clean up by deleting the dataPath file - but be sure send is complete first
 	//defer deleteFile(dataPath)
 

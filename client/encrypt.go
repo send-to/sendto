@@ -1,20 +1,23 @@
 package main
 
 import (
-	//	"archive/zip"
+	"archive/zip"
 	"fmt"
-	"io/ioutil"
+	"io"
+	"os"
 	"path/filepath"
+	"time"
 
-	//	"golang.org/x/crypto/openpgp"
-	//	"golang.org/x/crypto/openpgp/armor"
-	//	"golang.org/x/crypto/openpgp/packet"
+	"golang.org/x/crypto/openpgp"
+	"golang.org/x/crypto/openpgp/armor"
+	"golang.org/x/crypto/openpgp/packet"
 	//	"golang.org/x/crypto/ssh/terminal"
 )
 
 // LoadKey loads the key associated with this username,
 // first by loooking at ~/.sendto/users/recipient/key.pub
 // or if that fails by fetching it from the internet and saving at that location
+// it returns the path of the downloaded key file
 func LoadKey(recipient string) (string, error) {
 	fmt.Printf("Loading key for %s...\n", recipient)
 
@@ -24,7 +27,7 @@ func LoadKey(recipient string) (string, error) {
 
 	// Check if the key file exists at ~/.sendto/users/recipient/key.pub
 	if !fileExists(keyPath) {
-		// Make the enclosing dir
+		// Make the user directory
 		createFolder(filepath.Join("users", recipient))
 
 		// Fetch the key from our server
@@ -33,47 +36,129 @@ func LoadKey(recipient string) (string, error) {
 			return "", err
 		}
 
-		// Print the key for the user as we have fetched it for the first time?
+		// Tell user we fetched key
 		fmt.Printf("Fetched key for user:%s from:%s\n", recipient, keyURL)
+
+		// Print the key for the user as we have fetched it for the first time?
+
+		/*
+		   key, err := ioutil.ReadFile(keyPath)
+		   if err != nil {
+		     return "", err
+		   }
+		*/
 	}
 
-	// Load the key into memory - we might not need to do this
-	key, err := ioutil.ReadFile(keyPath)
+	return keyPath, nil
+}
+
+// EncryptFiles zips and encrypts our arguments (files or folders) using a public key
+func EncryptFiles(args []string, recipient string, keyPath string) (string, error) {
+
+	// First open and parse recipient key
+	publicKey, err := ParsePublicKey(keyPath)
 	if err != nil {
 		return "", err
 	}
 
-	return string(key), nil
+	fmt.Printf("Using key: %x\n", publicKey.PrimaryKey.Fingerprint)
+
+	// Make the user files directory
+	createFolder(filepath.Join("files", recipient))
+
+	// Now create a file to write to
+	// caller might set this? ideally want to hash after encryption which isn't possible of course...
+	// must be a zip file.
+	name := "testing"
+	outPath := filepath.Join(configPath(), "files", recipient, fmt.Sprintf("%s.zip.gpg", name))
+	out, err := os.Create(outPath)
+	if err != nil {
+		return "", err
+	}
+	defer out.Close()
+
+	// Create encryption writer
+	hints := &openpgp.FileHints{IsBinary: true, FileName: fmt.Sprintf("%s.zip", name), ModTime: time.Now()}
+	pgpWriter, err := openpgp.Encrypt(out, []*openpgp.Entity{publicKey}, nil, hints, nil)
+	if err != nil {
+		return "", err
+	}
+
+	// Now create a zipwriter, which writes to this pgpWriter
+	zipWriter := zip.NewWriter(pgpWriter)
+
+	// Add the files/folders from our args
+	for _, arg := range args {
+
+		// For each argument, walk the file path adding files to our zip
+		err := filepath.Walk(arg, func(p string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if info.IsDir() {
+				return nil
+			}
+
+			f, err := os.Open(p)
+			if err != nil {
+				return err
+			}
+			defer f.Close()
+
+			// Support unicode filenames
+			h := &zip.FileHeader{Name: p, Method: zip.Deflate, Flags: 0x800}
+			z, err := zipWriter.CreateHeader(h)
+			// z, err := zipWriter.Create(p)
+			if err != nil {
+				return err
+			}
+			io.Copy(z, f)
+			zipWriter.Flush()
+			return nil
+		})
+		if err != nil {
+			return "", err
+		}
+
+	}
+	err = zipWriter.Flush()
+	if err != nil {
+		return "", err
+	}
+	err = zipWriter.Close()
+	if err != nil {
+		return "", err
+	}
+
+	// close the encPipe to finish the process
+	err = pgpWriter.Close()
+
+	return outPath, err
 }
 
-// EncryptFiles zips and encrypts our arguments (files or folders) using a public key
-func EncryptFiles(args []string, key string) (string, error) {
+// ParsePublicKey parses the given public key file
+func ParsePublicKey(keyPath string) (*openpgp.Entity, error) {
+	f, err := os.Open(keyPath)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
 
-	/*
-		// Do something like this?
-			// prepare to encrypt our data
-			encoded, err := openpgp.Encrypt(out, []*openpgp.Entity{to}, from, hints, nil)
-			if err != nil {
-				return err
-			}
+	// Parse our key
+	key, err := armor.Decode(f)
+	if err != nil {
+		return nil, err
+	}
+	if key.Type != openpgp.PublicKeyType {
+		return nil, fmt.Errorf("Key of wrong type:%s", key.Type)
+	}
+	r := packet.NewReader(key.Body)
+	to, err := openpgp.ReadEntity(r)
+	if err != nil {
+		return nil, err
+	}
 
-			// Add files to a zip
-			zipper := zip.NewWriter(encOut)
-
-			t1, err := zipper.Create("test/test.txt")
-			err := zipper.Flush()
-			if err != nil {
-				return err
-			}
-
-			// close the encPipe to finish the process
-			err := encOut.Close()
-			if err != nil {
-				return err
-			}
-			// Send the file
-	*/
-	return "", nil
+	return to, nil
 }
 
 // DecryptFiles decrypts and unzips a file using a private key
