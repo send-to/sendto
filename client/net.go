@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-// DownloadData retrieves a file from the server and save contents at filePath
+// DownloadData retrieves a file from the server and saves contents at filePath
 func DownloadData(url string, filePath string) error {
 
 	// Fetch the file
@@ -38,14 +38,14 @@ func DownloadData(url string, filePath string) error {
 }
 
 // PostData sends data to the server
-func PostData(recipient string, filePath string, sender string) error {
+func PostData(sender, recipient, file, url string) error {
 
 	// Prepare a new multipart form writer
 	var formData bytes.Buffer
 	w := multipart.NewWriter(&formData)
 
 	// Add the encrypted file
-	err := addFile(w, filePath)
+	err := addFile(w, file)
 	if err != nil {
 		return err
 	}
@@ -64,8 +64,6 @@ func PostData(recipient string, filePath string, sender string) error {
 	w.Close()
 
 	// Now post the form
-	//url := "https://sendto.click/files/upload"
-	url := "http://localhost:3000/files/upload"
 	req, err := http.NewRequest("POST", url, &formData)
 	if err != nil {
 		return err
