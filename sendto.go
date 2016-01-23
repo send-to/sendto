@@ -116,11 +116,8 @@ func SendTo(recipient string, args []string) error {
 		return err
 	}
 
-	// Clean up by deleting the dataPath file - but be sure send is complete first
-	//defer deleteFile(dataPath)
-
 	// Send the file to the recipient on the server
-	err = client.PostData(recipient, dataPath)
+	err = client.PostData(recipient, dataPath, client.Config["sender"])
 	if err != nil {
 		return err
 	}
