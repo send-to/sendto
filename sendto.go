@@ -103,7 +103,10 @@ func SendTo(recipient string, args []string) error {
 	fmt.Printf("Sending %d %s to %s as %s...\n", len(args), filesString(len(args)), recipient, client.Config["sender"])
 
 	// Fetch the recipient's key (from disk or server)
-	keyPath, err := client.LoadKey(recipient)
+
+	// For the moment as a test, use keybase.io, should be using our server
+	keyURL := fmt.Sprintf(client.Config["keyserver"], recipient)
+	keyPath, err := client.LoadKey(recipient, keyURL)
 	if err != nil {
 		// Warn user in a nicer way here that key could not be found
 		return fmt.Errorf("Failed to find key:%s", err)
@@ -117,7 +120,11 @@ func SendTo(recipient string, args []string) error {
 	}
 
 	// Send the file to the recipient on the server
-	err = client.PostData(recipient, dataPath, client.Config["sender"])
+	postURL := fmt.Sprintf("%s/files/upload", client.Config["server"])
+
+	fmt.Printf("Sending files for %s to %s\n", recipient, postURL)
+
+	err = client.PostData(client.Config["sender"], recipient, dataPath, postURL)
 	if err != nil {
 		return err
 	}
@@ -138,6 +145,8 @@ func Identity(args []string) error {
 
 	return client.SaveConfig()
 }
+
+// Perhaps also allow setting default server?
 
 // Return a nicely formatted string for the word files
 func filesString(i int) string {

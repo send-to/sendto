@@ -17,11 +17,10 @@ import (
 // first by loooking at ~/.sendto/users/recipient/key.pub
 // or if that fails by fetching it from the internet and saving at that location
 // it returns the path of the downloaded key file
-func LoadKey(recipient string) (string, error) {
+func LoadKey(recipient string, url string) (string, error) {
 	fmt.Printf("Loading key for %s...\n", recipient)
 
-	// For the moment as a test, use keybase.io, should be using our server
-	keyURL := fmt.Sprintf("https://keybase.io/%s/key.asc", recipient)
+	// Define a local keypath of users/name/key.pub
 	keyPath := filepath.Join(configPath(), "users", recipient, "key.pub")
 
 	// Check if the key file exists at ~/.sendto/users/recipient/key.pub
@@ -30,16 +29,15 @@ func LoadKey(recipient string) (string, error) {
 		createFolder(filepath.Join("users", recipient))
 
 		// Fetch the key from our server
-		err := DownloadData(keyURL, keyPath)
+		err := DownloadData(url, keyPath)
 		if err != nil {
 			return "", err
 		}
 
 		// Tell user we fetched key
-		fmt.Printf("Fetched key for user:%s from:%s\n", recipient, keyURL)
+		fmt.Printf("Fetched key for user:%s from:%s\n", recipient, url)
 
 		// Print the key for the user as we have fetched it for the first time?
-
 		/*
 		   key, err := ioutil.ReadFile(keyPath)
 		   if err != nil {
