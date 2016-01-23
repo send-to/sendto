@@ -1,4 +1,4 @@
-package main
+package client
 
 import (
 	"encoding/json"
@@ -10,10 +10,11 @@ import (
 	"path/filepath"
 )
 
-var config map[string]string
+// Config holds our client config
+var Config map[string]string
 
-// loadConfig reads or creates our config file at ~/.sendto/config
-func loadConfig() error {
+// LoadConfig reads or creates our config file at ~/.sendto/config
+func LoadConfig() error {
 
 	// Create our files folder to store files to send
 	err := createFolder("files")
@@ -31,20 +32,20 @@ func loadConfig() error {
 	// First check it exists
 	file, err := ioutil.ReadFile(configFilePath())
 	if err == nil {
-		err = json.Unmarshal(file, &config)
+		err = json.Unmarshal(file, &Config)
 		if err != nil {
 			return err
 		}
 	}
 
 	// If no config exists create a config and save it
-	if len(config) == 0 {
+	if len(Config) == 0 {
 		err = setupConfig()
 		if err != nil {
 			return err
 		}
 
-		err = saveConfig()
+		err = SaveConfig()
 		if err != nil {
 			return err
 		}
@@ -54,10 +55,10 @@ func loadConfig() error {
 	return nil
 }
 
-// saves our config out to a file at ~/.sendto/config
-func saveConfig() error {
+// SaveConfig saves our config out to a file at ~/.sendto/config
+func SaveConfig() error {
 	// Write out a json file representing our config map
-	configJSON, err := json.MarshalIndent(config, "", "\t")
+	configJSON, err := json.MarshalIndent(Config, "", "\t")
 	if err != nil {
 		return err
 	}
@@ -72,7 +73,7 @@ func saveConfig() error {
 }
 
 func setupConfig() error {
-	config = make(map[string]string, 0)
+	Config = make(map[string]string, 0)
 
 	// Get hold of the current user details
 	u, err := user.Current()
@@ -80,7 +81,7 @@ func setupConfig() error {
 		return err
 	}
 	fmt.Printf("Setting default sender identity to:%s\n", u.Name)
-	config["sender"] = u.Name
+	Config["sender"] = u.Name
 	return nil
 }
 
@@ -109,12 +110,4 @@ func fileExists(path string) bool {
 		return false
 	}
 	return true
-}
-
-// Return a nicely formatted string for the word files
-func filesString(i int) string {
-	if i > 1 {
-		return "files"
-	}
-	return "file"
 }
