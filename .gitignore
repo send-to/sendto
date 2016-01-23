@@ -1,3 +1,4 @@
 server/secrets
 server/log/*.log
+server/files
 db/backup/*.gz
