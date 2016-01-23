@@ -1,6 +1,7 @@
 package fileactions
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/fragmenta/router"
@@ -25,6 +26,13 @@ func HandleDownload(context router.Context) error {
 	}
 
 	// If we are permitted, send the file to the user
+	//w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	//http.DetectContentType(data []byte) string
+	h := context.Header()
+	h.Set("Content-Type", "application/pgp-encrypted")
+	h.Set("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s\"", file.Name()))
+	h.Set("Content-Transfer-Encoding", "binary")
+
 	http.ServeFile(context, context.Request(), file.Path)
 	return nil
 }
