@@ -21,6 +21,8 @@ func HandleCreate(context router.Context) error {
 	}
 	fh := fileParams[0]
 
+	context.Logf("#info FILE RECD:%v", fh.Filename)
+
 	// Now extract other params
 	params, err := context.Params()
 	if err != nil {
@@ -28,7 +30,7 @@ func HandleCreate(context router.Context) error {
 	}
 
 	// First find the username, if we have no user, reject post
-	context.Logf("PARAMS:%v", params)
+	//context.Logf("PARAMS:%v", params)
 	// PARAMS:map[sender:[Kenny Grant] recipient:[testtest]]
 	// Check for user with name recipient
 

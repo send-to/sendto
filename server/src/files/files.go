@@ -131,9 +131,8 @@ func (m *File) saveFile(fh *multipart.FileHeader) error {
 // NewFilePath sets a default path for this file.
 func (m *File) NewFilePath(fh *multipart.FileHeader) error {
 	m.Path = fmt.Sprintf("files/%d/%s", m.Id, file.SanitizeName(fh.Filename))
-
-	// Perhaps tidy this to happen before create?
-	return m.Update(map[string]string{"path": m.Path})
+	params := map[string]string{"path": m.Path}
+	return Query().Where("id=?", m.Id).Update(params)
 }
 
 // validateParams checks these params pass validation checks
@@ -222,13 +221,14 @@ func (m *File) Destroy() error {
 		return fmt.Errorf("file: error destroying file - invalid path")
 	}
 
-	// First remove the file from disk
-	err := os.Remove(path.Join(".", m.Path))
+	// First remove the record from db
+	err := Query().Where("id=?", m.Id).Delete()
 	if err != nil {
 		return err
 	}
 
-	return Query().Where("id=?", m.Id).Delete()
+	// Then remove the file from disk
+	return os.Remove(path.Join(".", m.Path))
 }
 
 // Name returns the file path basename

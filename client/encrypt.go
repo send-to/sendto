@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"path/filepath"
 	"time"
 
@@ -64,8 +65,9 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 	createFolder(filepath.Join("files", recipient))
 
 	// Should caller set the filename required for the zip?
-	// hash of username + time or something? Doesn't really matter but should be unique
-	name := "testing"
+	// hash of username + time or something? Doesn't really matter but should be unique I guess
+	// it doesn't have to be unique though... just use caller name for now
+	name := path.Clean(path.Base(args[0]))
 	outPath := filepath.Join(configPath(), "files", recipient, fmt.Sprintf("%s.zip.gpg", name))
 	out, err := os.Create(outPath)
 	if err != nil {

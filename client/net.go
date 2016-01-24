@@ -79,7 +79,8 @@ func PostData(sender, recipient, file, url string) error {
 		return fmt.Errorf("Error status %d posting file to %s\n", resp.StatusCode, url)
 	}
 
-	fmt.Printf("File sent to: %s %v\n", url, resp)
+	//fmt.Printf("File sent to: %s %v\n", url, resp.Body)
+	fmt.Printf("File sent to: %s\n", url)
 
 	return nil
 
