@@ -6,6 +6,9 @@ Sendto is a quick way for people to send you encrypted files and folders, withou
 * Files encrypted at all times. Sendto cannot open your files because it only knows about your public key, so it can encrypt but never decrypt. TLS is also used for all connections. 
 * Open Source. Sendto is completely open source, so that you can verify what happens to your files, and run it on your own server if you prefer self-hosting. 
 
+![Sendto](https://raw.githubusercontent.com/gophergala2016/sendto/master/images/sendto.png?s=600)
+
+
 ### Receive files securely
 
 Just send people a link to your profile, and they can download an app for their platform to send you encrypted files. After that download, on Mac OS X they can send you code just by right clicking a file or folder and choosing Services > Send to YOURNAME, at which point you can see it on the website. Other platforms at present have a command line app, but will have drag and drop. 
