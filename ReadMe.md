@@ -13,9 +13,21 @@ Sendto is a quick way for people to send you encrypted files and folders, withou
 
 ### Receive files securely
 
-Just send people a link to your profile, and they can download an app for their platform to send you encrypted files. After that download, on Mac OS X they can send you code just by right clicking a file or folder and choosing Services > Send to YOURNAME, at which point you can see it on the website. Other platforms at present have a command line app, but will have drag and drop. 
+Just send people a link to your profile, and they can download an app for their platform to send you encrypted files. An example profile is here:
 
-Try out sending a file to my profile: https://sendto.click/kennygrant, or set up your own.
+https://sendto.click/users/demo
+
+This shows the public key, and a set of download links. Download the binary for your platform (or install from source if you prefer, see below), and then you can send a file to any sendto account for which you know the username, with a command like:
+
+`sendto demo my/file/or/folder`
+
+this will send the file to the demo account. You won't be able to download it though, as you need your own profile to access uploaded files. Please only send test files to the demo account. 
+
+Once you've tried the demo, if you have a keybase.io account, try setting up as we can pull keys automatically from keybase.io. No email is required for sign up at this time. 
+
+Once files are uploaded to your account, you're able to view and download them by logging in. Decryption happens on your machine, so that your private keys are never shared with the server. 
+
+![Sendto](https://raw.githubusercontent.com/gophergala2016/sendto/master/images/files.png?s=600)
 
 ### Team
 @kennygrant on twitter, github, keybase.io, sendto.click
@@ -43,3 +55,10 @@ and then use the sendto command:
 `sendto help` 
 
 you can host the server yourself if you prefer to have complete control. 
+
+
+### Possible bugs
+
+I haven't had much time to test on Windows, so there may be path issues there. Tested on Mac OS X and linux. The server runs on linux. 
+
+Keys are cached locally for users (at ~/.sendto), so if you change your key you'd have to remove the prefs locally in order to update it. This needs fixed at some point obviously. 
