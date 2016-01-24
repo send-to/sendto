@@ -27,11 +27,16 @@ func HandleCreateShow(context router.Context) error {
 // HandleCreate handles the POST of the create form for files
 func HandleCreate(context router.Context) error {
 
-	// Authorise
-	err := authorise.Path(context)
-	if err != nil {
-		return router.NotAuthorizedError(err)
-	}
+	// Do not perform auth on posts - we could check a shared secret here or similar but that is not secure
+	// better to require siging of posts by users with their own key to confirm identity if we wanted to check submissions.
+
+	/*
+		// Authorise
+		err := authorise.Path(context)
+		if err != nil {
+			return router.NotAuthorizedError(err)
+		}
+	*/
 
 	// Parse multipart first - must fix this to do it automatically
 	fileParams, err := context.ParamFiles("file")

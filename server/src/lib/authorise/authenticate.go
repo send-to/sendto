@@ -6,7 +6,7 @@ import (
 	"github.com/fragmenta/auth"
 	"github.com/fragmenta/router"
 
-	"github.com/fragmenta/fragmenta-cms/src/users"
+	"github.com/gophergala2016/sendto/server/src/users"
 )
 
 // CurrentUser returns the saved user (or an empty anon user) for the current session cookie
@@ -22,7 +22,7 @@ func CurrentUser(context router.Context) *users.User {
 	user := &users.User{}
 
 	// Build the session from the secure cookie, or create a new one
-	session, err := auth.Session(context, context.Request())
+	session, err := auth.Session(context.Writer(), context.Request())
 	if err != nil {
 		context.Logf("#error problem retrieving session")
 		return user
@@ -49,4 +49,32 @@ func CurrentUser(context router.Context) *users.User {
 	}
 
 	return user
+}
+
+// AuthenticityTokenFilter sets the authenticity token on the context and on the cookie
+func AuthenticityTokenFilter(c router.Context) error {
+	token, err := auth.AuthenticityToken(c.Writer(), c.Request())
+	if err != nil {
+		return err
+	}
+	c.Set("authenticity_token", token)
+	return nil
+}
+
+// AuthenticityToken checks the token in the current request
+func AuthenticityToken(context router.Context) error {
+	token := context.Param(auth.SessionTokenKey)
+	err := auth.CheckAuthenticityToken(token, context.Request())
+	if err != nil {
+		// If the check fails, log out the user and completely clear the session
+		context.Logf("#warn invalid authenticity token at %v", context)
+		session, err := auth.SessionGet(context.Request())
+		if err != nil {
+			return err
+		}
+		session.Clear(context.Writer())
+
+	}
+
+	return err
 }

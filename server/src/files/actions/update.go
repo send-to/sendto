@@ -18,7 +18,7 @@ func HandleUpdateShow(context router.Context) error {
 	}
 
 	// Authorise update file
-	err = authorise.Resource(context, file)
+	err = authorise.ResourceAndAuthenticity(context, file)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}

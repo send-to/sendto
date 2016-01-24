@@ -29,7 +29,7 @@ func HandleCreateShow(context router.Context) error {
 func HandleCreate(context router.Context) error {
 
 	// Authorise
-	err := authorise.Path(context)
+	err := authorise.ResourceAndAuthenticity(context, nil)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}

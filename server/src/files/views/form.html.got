@@ -17,6 +17,6 @@
       {{ field "Path" "path" .file.Path }}
     </section>
 
-    <input name="authenticity-token" type="hidden" value="{{.csrf}}">
+    <input name="authenticity-token" type="hidden" value="{{.authenticity_token}}">
 </form>
 </div>

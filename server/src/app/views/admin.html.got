@@ -1,9 +1,0 @@
-<nav class="admin {{ if dev }}dev{{ end }}">
-    
-    <ul class="inline main_list">
-      <li><a href="/users">Users</a></li>
-      <li><a href="/pages">Pages</a></li>
-      <li><a href="/files">Files</a></li>
-    </ul>
-    
-</nav>

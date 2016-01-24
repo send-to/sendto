@@ -17,7 +17,7 @@ func HandleDestroy(context router.Context) error {
 	}
 
 	// Authorise destroy file
-	err = authorise.Resource(context, file)
+	err = authorise.ResourceAndAuthenticity(context, file)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}
@@ -26,5 +26,5 @@ func HandleDestroy(context router.Context) error {
 	file.Destroy()
 
 	// Redirect to files root
-	return router.Redirect(context, file.URLIndex())
+	return router.Redirect(context, "/files")
 }

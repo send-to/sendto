@@ -2,12 +2,13 @@ package authorise
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/fragmenta/auth"
 	"github.com/fragmenta/router"
 	"github.com/fragmenta/server"
 
-	"github.com/fragmenta/fragmenta-cms/src/users"
+	"github.com/gophergala2016/sendto/server/src/users"
 )
 
 // ResourceModel defines the interface for models passed to authorise.Resource
@@ -26,9 +27,10 @@ func Setup(s *server.Server) {
 	auth.SessionName = "sendto"
 
 	// Enable https cookies on production server - we don't have https, so don't do this
-	//	if s.Production() {
-	//		auth.SecureCookies = true
-	//	}
+	if s.Production() {
+		s.Log("Using secure cookies")
+		auth.SecureCookies = true
+	}
 
 }
 
@@ -44,34 +46,49 @@ func Path(c router.Context) error {
 	return Resource(c, nil)
 }
 
+// ResourceAndAuthenticity authorises the path and resource for the current user
+func ResourceAndAuthenticity(c router.Context, r ResourceModel) error {
+
+	// Check the authenticity token first
+	err := AuthenticityToken(c)
+	if err != nil {
+		return err
+	}
+
+	// Now authorise the resource as normal
+	return Resource(c, r)
+}
+
 // Resource authorises the path and resource for the current user
 // if model is nil it is ignored and permission granted
 func Resource(c router.Context, r ResourceModel) error {
-
-	return nil
 
 	// Short circuit evaluation if this is a public path
 	if publicPath(c.Path()) {
 		return nil
 	}
 
-	// We should also check CSRF token on POST requests here?
-	// or should we do that separately in the action?
-	// I'm inclined to do it transparently here
-
 	user := c.Get("current_user").(*users.User)
 
 	switch user.Role {
 	case users.RoleAdmin:
 		return nil
-	case users.RoleEditor:
-		if r.OwnedBy(user.Id) {
+	case users.RoleCustomer:
+
+		// RoleCustomer should have access to /files
+		if c.Path() == "/files" {
 			return nil
 		}
+		// RoleCustomer should have access to /users/x/update if they are that user
+		if strings.HasPrefix(c.Path(), "/users") {
+			if r != nil && r.OwnedBy(user.Id) {
+				return nil
+			}
+		}
+
 	}
 
 	return fmt.Errorf("Path and Resource not authorized:%s %v", c.Path(), r)
-
 }
 
 // publicPath returns true if this path should always be allowed, regardless of user role
@@ -79,8 +96,7 @@ func publicPath(p string) bool {
 	switch p {
 	case "/":
 		return true
-	case "/blog":
-		return true
+	case "/users/create":
 	case "/users/login":
 		return true
 	}

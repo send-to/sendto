@@ -1,13 +1,15 @@
 <article>
-<h1>{{ .user.Name }}</h1>
-<div class="text">
-    	<p>Email: {{ .user.Email }}</p>
-	<p>Key: {{ .user.Key }}</p>
-	<p>Name: {{ .user.Name }}</p>
-	<p>Password: {{ .user.Password }}</p>
-	<p>Role: {{ .user.Role }}</p>
-	<p>Status: {{ .user.Status }}</p>
-	<p>Summary: {{ .user.Summary }}</p>
+<section class="container">
+<h1>{{ .user.Name }} <a href="/users/{{.user.Id}}/key"><i class="fa fa-key"></i></a></h1>
+<p>To send files to this user, follow the instructions for your platform below, and then run the program, giving it the username and the location of the files you wish to send.</p>
+<pre><code>sendto {{ .user.Name }} path/to/your/files</code></pre>
+<p>The program will then archive and encrypt the files and post them to the account of {{ .user.Name }} on sendto.</p>
+</section>
 
-</div>
+{{ if (.current_user.IsUser .user) }}
+  <section class="center">
+  <a class="button" href="/files">View your files</a>
+</section>
+{{ end }}  
+
 </article>

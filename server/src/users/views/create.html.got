@@ -1,4 +1,43 @@
-<article>
-<h1>Create User</h1>
-{{ template "users/views/form.html.got" . }}
+<article class="container">
+
+<h1>Register with Sendto</h1>
+<form method="post" class="resource-update-form">
+     <input name="authenticity-token" type="hidden" value="{{.authenticity_token}}">
+     
+  
+     <h3>Do you have a <a href="https://keybase.io">keybase.io</a> account?</h3>
+     <p>If you enter your keybase.io account name here, we can pull your public key from their registry automatically and get you set up quicker. This will not affect your keybase.io account in anyway, it will just pull your public key from their website.</p>
+    
+    <p class="warn hidden">Sorry, there was a problem getting the details, please fill in the form manually.</p>
+    
+    <section class="inline-fields">
+     <div class="field">
+         <label>keybase.io username</label>
+         <input name="keybasename" value="" id="keybasename" type="text">
+         <a href="#" class="button" id="keybase_button">Get Key</a>
+         <a href="#" class="button grey" id="keybase_skip">Skip</a> 
+     </div>
+     </section>
+  
+     <div class="user_create_fields hidden">
+  
+    <section class="inline-fields">
+      {{ field "Name" "name" .user.Name "id=name"}}
+      {{ field "Email (optional)" "email" .user.Email }}
+      {{ field "Password" "password" .user.Password "type=password"}}
+    </section>
+    
+    <section class="wide-fields">
+      {{ textarea "Key" "key" .user.Key "id=key" }}
+    </section>
+  
+    <section class="actions_left">
+      <a class="button grey" href="javascript:history.back()">Cancel</a>
+      <input type="submit" class="button" value="Save">
+    </section>
+  
+  </div>
+    
+    
+</form>
 </article>

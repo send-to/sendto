@@ -1,4 +1,29 @@
 <article>
-<h1>Update User</h1>
-{{ template "users/views/form.html.got" . }}
+<h1>{{.user.Name}}</h1>
+<div class="container">
+<form method="post" class="resource-update-form">
+  <input name="authenticity-token" type="hidden" value="{{.authenticity_token}}">
+ 
+    <section class="actions">
+        <input type="submit" class="button" value="Save">
+        <a class="button grey" href="javascript:history.back()">Cancel</a>
+    </section>
+    
+    {{ if .current_user.Admin }}
+      {{ select "Status" "status" .user.Status .user.StatusOptions }}  
+      
+    {{ end }}
+    
+    <section class="inline-fields">
+      {{ field "Email (optional)" "email" .user.Email }}
+      {{ field "Password" "password" .user.Password "type=password"}}
+    
+    </section>
+    <section class="wide-fields">
+      {{ textarea "Key" "key" .user.Key }}
+    </section>
+
+    <input name="authenticity-token" type="hidden" value="{{.authenticity_token}}">
+</form>
+</div>
 </article>

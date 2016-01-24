@@ -107,7 +107,8 @@ code {
 }
 
 .button.grey {
-  background-color:#aaa;
+  color:#aaa;
+  border:1px solid #aaa;
 }
 
 .button.orange {
@@ -146,8 +147,13 @@ ul.inline, nav ul {
 ul.inline li, nav ul li {
   display: inline-block;
   white-space: nowrap;
-  padding:0 2rem;
+  padding:0 1rem;
   margin:0 0 0.2rem 0;
+}
+
+
+header nav ul li.right {
+  float:right;
 }
 
 header {
@@ -190,7 +196,7 @@ nav {
 }
 
 nav.admin {
-  background-color:#000;
+  
 }
 
 article {
@@ -239,3 +245,4 @@ section.narrow {
   padding:0 2rem;
   max-width:50em;
 }
+

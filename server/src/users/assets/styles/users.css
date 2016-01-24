@@ -1,1 +1,14 @@
 /* CSS Styles for users */
+
+.wide-fields textarea {
+  width:100%;
+  height:11em;
+}
+
+.actions_left .button {
+  margin-right:1rem;
+}
+
+#keybase_button, #keybase_skip {
+  margin-left:1rem;
+}

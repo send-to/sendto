@@ -18,7 +18,7 @@ func HandleUpdateShow(context router.Context) error {
 	}
 
 	// Authorise update user
-	err = authorise.Resource(context, user)
+	err = authorise.ResourceAndAuthenticity(context, user)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}
@@ -30,7 +30,7 @@ func HandleUpdateShow(context router.Context) error {
 	return view.Render()
 }
 
-// HandleUpdateShow handles the POST of the form to update a user
+// HandleUpdate handles the POST of the form to update a user
 func HandleUpdate(context router.Context) error {
 
 	// Find the user
@@ -45,12 +45,20 @@ func HandleUpdate(context router.Context) error {
 		return router.NotAuthorizedError(err)
 	}
 
-	// Update the user from params
+	// Get the params
 	params, err := context.Params()
 	if err != nil {
 		return router.InternalError(err)
 	}
-	err = user.Update(params.Map())
+
+	// Clean params further for customers, they may only update email, password, key
+	allowedParams := params.Map()
+	u := authorise.CurrentUser(context)
+	if !u.Admin() {
+		//	allowedParams = params.Clean(users.AllowedParamsCustomer())
+	}
+
+	err = user.Update(allowedParams)
 	if err != nil {
 		return router.InternalError(err)
 	}

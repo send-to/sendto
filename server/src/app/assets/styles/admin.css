@@ -62,7 +62,11 @@ section.admin-bar-actions {
   padding:0.4rem 1rem;
 }
 
-
+.warn {
+  border:1px solid red;
+  color:red;
+  padding:1rem;
+}
 
 /*  TABLES */
 

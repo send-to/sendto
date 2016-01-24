@@ -3,8 +3,7 @@
 
 <div class="row">
 <form accept-charset="UTF-8" action="/files" method="get" class="filter-form">
-      <a class="button" href="/files/create">Add File</a>
-      <input type="search" name="filter" class="right" placeholder="Search..." value="{{ .filter }}">
+      <input type="hidden" name="filter" class="right" placeholder="Search..." value="{{ .filter }}">
 </form>
 </div>
 

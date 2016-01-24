@@ -9,6 +9,8 @@ import (
 	"github.com/fragmenta/server"
 	"github.com/fragmenta/server/log"
 	"github.com/fragmenta/view"
+
+	"github.com/gophergala2016/sendto/server/src/lib/authorise"
 )
 
 // appAssets holds a reference to our assets for use in asset setup
@@ -34,6 +36,16 @@ func Setup(server *server.Server) {
 	if err != nil {
 		server.Fatalf("Error creating router %s", err)
 	}
+
+	// Setup our authentication and authorisation
+	authorise.Setup(server)
+
+	// Add a prefilter to store the current user on the context, so that we only fetch it once
+	// We use this below in Resource, and also in views to determine current user attributes
+	router.AddFilter(authorise.CurrentUserFilter)
+
+	// Add an authenticity token filter to write out a secret token for each request (CSRF protection)
+	router.AddFilter(authorise.AuthenticityTokenFilter)
 
 	// Setup our router and handlers
 	setupRoutes(router)

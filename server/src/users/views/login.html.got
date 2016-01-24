@@ -1,0 +1,22 @@
+{{ if .error }}
+<p class="warn">
+  {{ if eq .error "failed_name"}} 
+  Sorry, that name could not be found. 
+  {{ else }}
+  Sorry, your password didn't match the name. 
+  {{ end }}
+</p>
+{{ end }}
+
+<section class="padded">
+<form action="/users/login" method="post">
+  <input name="authenticity_token" type="hidden" value="{{.authenticity_token}}">
+  
+    <h1>Login</h1>
+    {{ field "User name" "name" "" "text" }}
+    {{ field "Password" "password" "" "password" "type=password" }}
+    <div class="actions">
+        <input type="submit" class="button" value="Sign in">
+    </div>
+</form>
+</section>

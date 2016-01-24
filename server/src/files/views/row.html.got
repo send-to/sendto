@@ -10,6 +10,6 @@
         <td><a href="/files/{{.file.Id}}/download">{{ .file.Name }}</a></td>
         <td>{{ .file.Sender }}</td>
         <td>{{ time .file.UpdatedAt }}</td>
-        <td><a href="/files/{{.file.Id}}/update" method="post">Delete</a></td>
+        <td><a href="/files/{{.file.Id}}/destroy" method="post">Delete</a></td>
     </tr>
 {{ end }}

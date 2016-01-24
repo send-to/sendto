@@ -17,7 +17,7 @@ func HandleDestroy(context router.Context) error {
 	}
 
 	// Authorise destroy page
-	err = authorise.Resource(context, page)
+	err = authorise.ResourceAndAuthenticity(context, page)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}

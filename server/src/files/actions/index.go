@@ -1,8 +1,6 @@
 package fileactions
 
 import (
-	"strings"
-
 	"github.com/fragmenta/router"
 	"github.com/fragmenta/view"
 
@@ -19,33 +17,19 @@ func HandleIndex(context router.Context) error {
 		return router.NotAuthorizedError(err)
 	}
 
-	// Build a query
-	q := files.Query()
-
-	// Order by required order, or default to id asc
-	switch context.Param("order") {
-
-	case "1":
-		q.Order("created desc")
-
-	case "2":
-		q.Order("updated desc")
-
-	case "3":
-		q.Order("name asc")
-
-	default:
-		q.Order("id asc")
-
+	// Find the current user and check status
+	u := authorise.CurrentUser(context)
+	if u.Anon() {
+		//	return router.NotAuthorizedError(err)
 	}
 
-	// Filter if necessary - this assumes name and summary cols
-	filter := context.Param("filter")
-	if len(filter) > 0 {
-		filter = strings.Replace(filter, "&", "", -1)
-		filter = strings.Replace(filter, " ", "", -1)
-		filter = strings.Replace(filter, " ", " & ", -1)
-		q.Where("( to_tsvector(name) || to_tsvector(summary) @@ to_tsquery(?) )", filter)
+	// For admins, show all files, order by date desc
+	q := files.Query().Order("updated_at desc")
+
+	// otherwise show just the logged in user's files
+	if !u.Admin() {
+		// Find the files for this user, unless
+		q = files.Where("user_id=?", u.Id)
 	}
 
 	// Fetch the files
@@ -56,7 +40,6 @@ func HandleIndex(context router.Context) error {
 
 	// Render the template
 	view := view.New(context)
-	view.AddKey("filter", filter)
 	view.AddKey("files", results)
 	return view.Render()
 

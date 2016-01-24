@@ -18,7 +18,7 @@ func HandleUpdateShow(context router.Context) error {
 	}
 
 	// Authorise update page
-	err = authorise.Resource(context, page)
+	err = authorise.ResourceAndAuthenticity(context, page)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}

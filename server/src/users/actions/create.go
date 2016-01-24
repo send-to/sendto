@@ -11,12 +11,6 @@ import (
 // HandleCreateShow serves the create form via GET for users
 func HandleCreateShow(context router.Context) error {
 
-	// Authorise
-	err := authorise.Path(context)
-	if err != nil {
-		return router.NotAuthorizedError(err)
-	}
-
 	// Render the template
 	view := view.New(context)
 	user := users.New()
@@ -29,7 +23,7 @@ func HandleCreateShow(context router.Context) error {
 func HandleCreate(context router.Context) error {
 
 	// Authorise
-	err := authorise.Path(context)
+	err := authorise.ResourceAndAuthenticity(context, nil)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}
@@ -42,17 +36,17 @@ func HandleCreate(context router.Context) error {
 
 	id, err := users.Create(params.Map())
 	if err != nil {
-		return router.InternalError(err)
+		return err
 	}
 
 	// Log creation
 	context.Logf("#info Created user id,%d", id)
 
 	// Redirect to the new user
-	m, err := users.Find(id)
+	u, err := users.Find(id)
 	if err != nil {
 		return router.InternalError(err)
 	}
 
-	return router.Redirect(context, m.URLIndex())
+	return router.Redirect(context, u.URLShow())
 }
