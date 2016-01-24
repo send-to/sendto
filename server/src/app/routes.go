@@ -39,12 +39,9 @@ func setupRoutes(r *router.Router) {
 	r.FileHandler = fileHandler
 	r.ErrorHandler = errHandler
 
-	// Add a files route to handle static images under files
-	// - nginx deals with this in production - perhaps only do this in dev?
-	r.Add("/files/{path:.*}", fileHandler)
 	r.Add("/favicon.ico", fileHandler)
 
-	// Add the home page route
-	r.Add("/", homeHandler)
+	// Add the custom page route
+	r.Add("/{path:[a-z0-9]?}", pageactions.HandleShowPath)
 
 }

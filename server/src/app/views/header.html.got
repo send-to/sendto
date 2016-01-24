@@ -3,7 +3,7 @@
 {{ end }}
 <nav>
   <ul>
-    <li><a href="http://sendto.click">Sendto</a></li>
+    <li><a href="http://sendto.click"><i class="fa fa-send fa-2x"></i> Sendto</a></li>
   </ul>
 </nav>
   

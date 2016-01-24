@@ -51,15 +51,16 @@ func PostData(sender, recipient, file, url string) error {
 	}
 
 	// Add sender identity
-	err = addField(w, "from", sender)
+	err = addField(w, "sender", sender)
 	if err != nil {
 		return err
 	}
 	// Add recipient identity
-	err = addField(w, "to", recipient)
+	err = addField(w, "recipient", recipient)
 	if err != nil {
 		return err
 	}
+
 	// Close the writer
 	w.Close()
 

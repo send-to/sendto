@@ -1,4 +1,3 @@
-// Package pages represents the page resource
 package pages
 
 import (

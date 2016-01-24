@@ -10,15 +10,6 @@ import (
 	"github.com/fragmenta/view"
 )
 
-// HandleShowHome serves our home page
-func homeHandler(context router.Context) error {
-
-	view := view.New(context)
-	view.AddKey("title", "Fragmenta app")
-	view.Template("app/views/home.html.got")
-	return view.Render()
-}
-
 // Default static file handler, handles assets too
 func fileHandler(context router.Context) error {
 
