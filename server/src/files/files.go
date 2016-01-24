@@ -4,7 +4,9 @@ package files
 import (
 	"fmt"
 	"mime/multipart"
+	"os"
 	"path"
+	"strings"
 	"time"
 
 	"github.com/fragmenta/model"
@@ -21,19 +23,19 @@ type File struct {
 	status.ModelStatus
 	Path     string
 	Sender   string
-	SenderId int64
-	UserId   int64
+	SenderID int64
+	UserID   int64
 }
 
 // AllowedParamsCreate returns only one param which may be added on file upload (sender)
 // Other params are set after create
 func AllowedParamsCreate() []string {
-	return []string{"sender"}
+	return []string{"sender", "user_id"}
 }
 
 // AllowedParams returns an array of allowed param keys
 func AllowedParams() []string {
-	return []string{"status", "path", "sender"}
+	return []string{"status", "sender", "user_id"}
 }
 
 // NewWithColumns creates a new file instance and fills it with data from the database cols provided
@@ -46,8 +48,8 @@ func NewWithColumns(cols map[string]interface{}) *File {
 	file.Status = validate.Int(cols["status"])
 	file.Path = validate.String(cols["path"])
 	file.Sender = validate.String(cols["sender"])
-	file.SenderId = validate.Int(cols["sender_id"])
-	file.UserId = validate.Int(cols["user_id"])
+	file.SenderID = validate.Int(cols["sender_id"])
+	file.UserID = validate.Int(cols["user_id"])
 
 	return file
 }
@@ -215,9 +217,16 @@ func (m *File) Update(params map[string]string) error {
 // Destroy removes the record from the database
 func (m *File) Destroy() error {
 	// Sanity check on path
+	if !strings.HasPrefix(m.Path, "files") ||
+		!strings.HasSuffix(m.Path, ".zip.gpg") {
+		return fmt.Errorf("file: error destroying file - invalid path")
+	}
 
 	// First remove the file from disk
-	// os.Remove(m.Path)
+	err := os.Remove(path.Join(".", m.Path))
+	if err != nil {
+		return err
+	}
 
 	return Query().Where("id=?", m.Id).Delete()
 }
@@ -225,4 +234,9 @@ func (m *File) Destroy() error {
 // Name returns the file path basename
 func (m *File) Name() string {
 	return path.Base(m.Path)
+}
+
+// OwnedBy returns true if the user id passed in owns this model
+func (m *File) OwnedBy(uid int64) bool {
+	return m.UserID == uid
 }

@@ -1,10 +1,14 @@
 package useractions
 
 import (
+	"fmt"
+
+	"github.com/fragmenta/auth"
 	"github.com/fragmenta/router"
 	"github.com/fragmenta/view"
 
 	"github.com/gophergala2016/sendto/server/src/lib/authorise"
+	"github.com/gophergala2016/sendto/server/src/lib/status"
 	"github.com/gophergala2016/sendto/server/src/users"
 )
 
@@ -23,7 +27,7 @@ func HandleCreateShow(context router.Context) error {
 func HandleCreate(context router.Context) error {
 
 	// Authorise
-	err := authorise.ResourceAndAuthenticity(context, nil)
+	err := authorise.Resource(context, nil)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}
@@ -34,6 +38,10 @@ func HandleCreate(context router.Context) error {
 		return router.InternalError(err)
 	}
 
+	// Default to customer role etc - admins will have to promote afterwards
+	params.Set("role", fmt.Sprintf("%d", users.RoleCustomer))
+	params.Set("status", fmt.Sprintf("%d", status.Published))
+
 	id, err := users.Create(params.Map())
 	if err != nil {
 		return err
@@ -43,10 +51,21 @@ func HandleCreate(context router.Context) error {
 	context.Logf("#info Created user id,%d", id)
 
 	// Redirect to the new user
-	u, err := users.Find(id)
+	user, err := users.Find(id)
 	if err != nil {
 		return router.InternalError(err)
 	}
 
-	return router.Redirect(context, u.URLShow())
+	// Save the details in a secure cookie
+	session, err := auth.Session(context, context.Request())
+	if err != nil {
+		return router.InternalError(err)
+	}
+
+	context.Logf("#info CREATE for user: %d", user.Id)
+	session.Set(auth.SessionUserKey, fmt.Sprintf("%d", user.Id))
+	session.Save(context)
+
+	// Send them to their user profile page
+	return router.Redirect(context, user.URLShow())
 }

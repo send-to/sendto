@@ -19,7 +19,7 @@ func setupRoutes(r *router.Router) {
 	r.Add("/users/{id:[0-9]+}/update", useractions.HandleUpdateShow)
 	r.Add("/users/{id:[0-9]+}/update", useractions.HandleUpdate).Post()
 	r.Add("/users/{id:[0-9]+}/destroy", useractions.HandleDestroy).Post()
-	r.Add("/users/{id:[0-9]+}/key", useractions.HandleShowKey)
+	r.Add("/users/{name:.+}/key", useractions.HandleShowKey)
 	r.Add("/users/{id:[0-9]+}", useractions.HandleShow)
 	r.Add("/users/{name:.+}", useractions.HandleShowName)
 
@@ -32,13 +32,11 @@ func setupRoutes(r *router.Router) {
 	r.Add("/pages/{id:[0-9]+}", pageactions.HandleShow)
 
 	r.Add("/files", fileactions.HandleIndex)
-	r.Add("/files/create", fileactions.HandleCreateShow)
 	r.Add("/files/create", fileactions.HandleCreate).Post()
 	r.Add("/files/{id:[0-9]+}/update", fileactions.HandleUpdateShow)
 	r.Add("/files/{id:[0-9]+}/update", fileactions.HandleUpdate).Post()
 	r.Add("/files/{id:[0-9]+}/destroy", fileactions.HandleDestroy).Post()
 	r.Add("/files/{id:[0-9]+}/download", fileactions.HandleDownload)
-	r.Add("/files/{id:[0-9]+}", fileactions.HandleShow)
 
 	// Set the default file handler
 	r.FileHandler = fileHandler

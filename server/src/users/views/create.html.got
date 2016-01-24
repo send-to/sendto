@@ -4,7 +4,6 @@
 <form method="post" class="resource-update-form">
      <input name="authenticity-token" type="hidden" value="{{.authenticity_token}}">
      
-  
      <h3>Do you have a <a href="https://keybase.io">keybase.io</a> account?</h3>
      <p>If you enter your keybase.io account name here, we can pull your public key from their registry automatically and get you set up quicker. This will not affect your keybase.io account in anyway, it will just pull your public key from their website.</p>
     

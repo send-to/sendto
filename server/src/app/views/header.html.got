@@ -11,7 +11,7 @@
     <li class="right"><a href="/users/login">Login</a></li>
     <li class="right"><a href="/users/create">Register</a></li>
     {{ else }}
-    <li class="right"><a href="/users/logout" method="post">Logout</a></li>
+    <li class="right"><a href="/users/logout" method="post" data-redirect="/">Logout</a></li>
     <li class="right"><a href="/users/{{.current_user.Name}}">{{.current_user.Name}}</a></li>
     {{ end }}
   </ul>

@@ -79,6 +79,14 @@ func Resource(c router.Context, r ResourceModel) error {
 		if c.Path() == "/files" {
 			return nil
 		}
+
+		// RoleCustomer should have access to /files/x/delete if file is owned by them
+		if strings.HasPrefix(c.Path(), "/files") {
+			if r != nil && r.OwnedBy(user.Id) {
+				return nil
+			}
+		}
+
 		// RoleCustomer should have access to /users/x/update if they are that user
 		if strings.HasPrefix(c.Path(), "/users") {
 			if r != nil && r.OwnedBy(user.Id) {
@@ -97,6 +105,7 @@ func publicPath(p string) bool {
 	case "/":
 		return true
 	case "/users/create":
+		return true
 	case "/users/login":
 		return true
 	}

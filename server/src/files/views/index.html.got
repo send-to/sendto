@@ -1,5 +1,5 @@
 <article>
-<h1>Files</h1>
+<h1>My Files</h1>
 
 <div class="row">
 <form accept-charset="UTF-8" action="/files" method="get" class="filter-form">

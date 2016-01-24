@@ -134,9 +134,18 @@ func validateParams(params map[string]string) error {
 	return err
 }
 
-// Find returns a single record by id in params
+// Find returns a single record by id
 func Find(id int64) (*User, error) {
 	result, err := Query().Where("id=?", id).FirstResult()
+	if err != nil {
+		return nil, err
+	}
+	return NewWithColumns(result), nil
+}
+
+// FindName returns a single record by name
+func FindName(name string) (*User, error) {
+	result, err := Query().Where("name=?", name).FirstResult()
 	if err != nil {
 		return nil, err
 	}

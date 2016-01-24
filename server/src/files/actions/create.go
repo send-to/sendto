@@ -5,38 +5,14 @@ import (
 	"github.com/fragmenta/view"
 
 	"github.com/gophergala2016/sendto/server/src/files"
-	"github.com/gophergala2016/sendto/server/src/lib/authorise"
+	"github.com/gophergala2016/sendto/server/src/users"
 )
-
-// HandleCreateShow serves the create form via GET for files
-func HandleCreateShow(context router.Context) error {
-
-	// Authorise
-	err := authorise.Path(context)
-	if err != nil {
-		return router.NotAuthorizedError(err)
-	}
-
-	// Render the template
-	view := view.New(context)
-	file := files.New()
-	view.AddKey("file", file)
-	return view.Render()
-}
 
 // HandleCreate handles the POST of the create form for files
 func HandleCreate(context router.Context) error {
 
 	// Do not perform auth on posts - we could check a shared secret here or similar but that is not secure
 	// better to require siging of posts by users with their own key to confirm identity if we wanted to check submissions.
-
-	/*
-		// Authorise
-		err := authorise.Path(context)
-		if err != nil {
-			return router.NotAuthorizedError(err)
-		}
-	*/
 
 	// Parse multipart first - must fix this to do it automatically
 	fileParams, err := context.ParamFiles("file")
@@ -51,6 +27,25 @@ func HandleCreate(context router.Context) error {
 		return router.InternalError(err)
 	}
 
+	// First find the username, if we have no user, reject post
+	context.Logf("PARAMS:%v", params)
+	// PARAMS:map[sender:[Kenny Grant] recipient:[testtest]]
+	// Check for user with name recipient
+
+	// Find the user
+	user, err := users.FindName(context.Param("recipient"))
+	if err != nil || user == nil {
+		return router.NotFoundError(err, "User not found", "Sorry this user doesn't exist")
+	}
+
+	// link with the named recipient user
+	params.SetInt("user_id", user.Id)
+
+	context.Logf("PARAMS:%v", params)
+
+	// Ideally perform some identity check on the sender here, and set sender id if we have a user?
+	// Perhaps require sending pgp sig of data?
+
 	// We only consider the first file
 	id, err := files.Create(params.Map(), fh)
 	if err != nil {
@@ -60,11 +55,16 @@ func HandleCreate(context router.Context) error {
 	// Log creation
 	context.Logf("#info Created file id,%d", id)
 
-	// Redirect to the new file
-	m, err := files.Find(id)
-	if err != nil {
-		return router.InternalError(err)
-	}
+	/*
+		_, err := files.Find(id)
+		if err != nil {
+			return router.InternalError(err)
+		}
+	*/
 
-	return router.Redirect(context, m.URLIndex())
+	// Render a 200 response
+	view := view.New(context)
+	view.Layout("files/views/create.json.got")
+	return view.Render()
+	//	return router.Redirect(context, m.URLIndex())
 }

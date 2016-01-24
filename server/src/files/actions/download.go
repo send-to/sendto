@@ -20,7 +20,7 @@ func HandleDownload(context router.Context) error {
 	}
 
 	// Authorise access to this file - only the file owners can access their own files
-	err = authorise.ResourceAndAuthenticity(context, file)
+	err = authorise.Resource(context, file)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}
