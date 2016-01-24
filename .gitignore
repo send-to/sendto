@@ -1,4 +1,5 @@
 server/secrets
-server/log/*.log
 server/files
-db/backup/*.gz
+server/log/*.log
+server/db/backup/*.gz
+server/bin
