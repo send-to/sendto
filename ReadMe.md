@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/gophergala2016/sendto/master/images/logo.png">
+
 # Sendto
 
 Sendto is a quick way for people to send you encrypted files and folders, without knowing anything about encryption, keys or passwords. 
