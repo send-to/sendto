@@ -81,7 +81,7 @@ func setupConfig() error {
 		return err
 	}
 	Config["sender"] = u.Name
-	Config["keyserver"] = "https://sendto.click/users/%s/key.asc"
+	Config["keyserver"] = "https://sendto.click/users/%s/key"
 	Config["server"] = "https://sendto.click"
 
 	fmt.Printf("Setting default config:%v\n", Config)
