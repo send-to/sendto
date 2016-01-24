@@ -2,9 +2,9 @@
         <li><a href="/about">About Us</a></li>
         <li><a href="/privacy">Privacy</a></li>
         {{ if .current_user.Anon }}
-            <li><a href="/users/login">Login</a></li>
+            <li><a href="/users/login">login</a></li>
         {{ else }}
-        <li><a href="/users/logout" method="post">Logout</a></li>
+        <li><a href="/users/logout" method="post">logout</a></li>
         {{ end }}
 </ul>
 <p><a href="http://fragmenta.eu">Made with Fragmenta</a></p>
