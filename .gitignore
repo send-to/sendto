@@ -3,3 +3,5 @@ server/files
 server/log/*.log
 server/db/backup/*.gz
 server/bin
+server/public/assets/scripts/app-*
+server/public/assets/styles/app-*
