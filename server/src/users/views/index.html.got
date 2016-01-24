@@ -1,4 +1,5 @@
 <article>
+<section>
 <h1>Users</h1>
 
 <div class="row">
@@ -7,7 +8,7 @@
       <input type="search" name="filter" class="right" placeholder="Search..." value="{{ .filter }}">
 </form>
 </div>
-
+</section>
 <div class="row">
 <table class="data-table">
     {{ $0 := . }}
