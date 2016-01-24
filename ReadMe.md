@@ -32,7 +32,7 @@ https://sendto.click
 
 
 ### Open source on github
-https://github.com/gophergala/sendto
+https://github.com/gophergala2016/sendto
 
 
 This app is open source so that you can build it yourself, and check what it does. If you have Go installed, you can also install the client and server from source with:
