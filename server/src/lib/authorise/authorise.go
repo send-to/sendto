@@ -23,7 +23,7 @@ func Setup(s *server.Server) {
 	c := s.Configuration()
 	auth.HMACKey = auth.HexToBytes(c["hmac_key"])
 	auth.SecretKey = auth.HexToBytes(c["secret_key"])
-	auth.SessionName = "fragmenta-cms"
+	auth.SessionName = "sendto"
 
 	// Enable https cookies on production server - we don't have https, so don't do this
 	//	if s.Production() {

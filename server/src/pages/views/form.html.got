@@ -5,13 +5,23 @@
         <a class="button grey" href="javascript:history.back()">Cancel</a>
     </section>
   
-    <section class="inline-fields">
-        {{ field "Keywords" "keywords" .page.Keywords }}
+  <section class="inline-fields">
+    {{ select "Status" "status" .page.Status .page.StatusOptions }}   
+    
     {{ field "Name" "name" .page.Name }}
-{{ select "Status" "status" .page.Status .page.StatusOptions }}    {{ field "Summary" "summary" .page.Summary }}
-    {{ field "Url" "url" .page.Url }}
-
-    </section>
+    {{ field "Summary" "summary" .page.Summary }}
+    {{ field "Url" "url" .page.URL }}
+  </section>
+  <section class="wide-fields">
+    {{ field "Keywords" "keywords" .page.Keywords }}
+  </section>  
+  
+  <section>
+          <label>Page Content</label>
+          {{ template "lib/editable/views/editable-toolbar.html.got"}}
+          <textarea name="text" class="content-textarea" id="page-content-textarea">{{.page.Text}}</textarea>
+          <div contenteditable class="content-editable" id="page-content-editable">{{html .page.Text}}</div>
+       </section>
     
 
     <input name="authenticity-token" type="hidden" value="{{.csrf}}">

@@ -16,13 +16,12 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 h1,h2,h3 {
-  font-family:Futura,"Trebuchet MS",Arial,sans-serif;
   font-style:normal;
   text-align:center;
 }
 
 h1 {
-  text-transform:uppercase;
+  font-size:8rem;
   color:#05afe7;
 }
 
@@ -35,7 +34,7 @@ h2 b {
 }
 
 h3 {
- 
+  font-weight:300;
 }
 
 h4 {
@@ -88,19 +87,23 @@ code {
 }
 
 .button, button, input[type="submit"], input[type="reset"], input[type="button"] {
-  color:#fff;
-  background-color:#05afe7;
-  border:none;
+  color:#05afe7;
+  border:1px solid #05afe7;
+  border-radius:0.3rem;
   font-size:1em;
-  font-weight:300;
+  font-weight:600;
   height:3.8rem;
   line-height:3.8rem;
   padding:0rem 2rem;
 }
 
 .button:hover, button:hover, input[type="submit"]:hover, input[type="reset"]:hover, input[type="button"]:hover {
+  
+}
+
+.feature .button, .feature button, .feature input[type="submit"], .feature input[type="reset"], .feature input[type="button"] {
   color:#fff;
-  text-shadow:0 0 0.4rem rgba(0,0,0,0.2)
+  border:1px solid #fff;
 }
 
 .button.grey {
@@ -147,6 +150,11 @@ ul.inline li, nav ul li {
   margin:0 0 0.2rem 0;
 }
 
+header {
+  padding:1rem;
+  font-size:1.5em;
+}
+
 header a {
   line-height:4rem;
   color:#fff;
@@ -158,8 +166,7 @@ header a:hover {
 header {
   margin:0 0 0 0;
   color:#fff;
-  border-bottom:2px solid #f1e42a;
-  background-color:#f49a18;
+  background-color:#05afe7;
 }
 
 
@@ -169,8 +176,12 @@ footer {
   text-align:center;
   padding:2rem 0 1rem 0;
   margin:4rem 0 0 0;
-  border-top:1px solid #f1e42a;
-  border-bottom:2px solid #f49a18;
+  background-color:#05afe7;
+  color:#fff;
+}
+
+footer a {
+  color:#fff;
 }
 
 nav {
@@ -184,17 +195,19 @@ nav.admin {
 
 article {
   clear:both;
-  padding:0 2%;
   min-height:50rem;
 }
 
 section {
   clear:both;
   display:block;
-  padding:1rem 2rem;
+  padding:1rem 2%;
   margin:1rem auto;
 }
 
+section .container {
+  width:95%;
+}
 
 section.feature {
   background-color:#05afe7;
@@ -202,10 +215,18 @@ section.feature {
   width:100%;
   text-align:center;
   margin:0 0 2rem 0;
-  padding:0 0 0.5rem 0;
+  padding:0 0 1rem 0;
 }
 
-section.feature a, section.feature h3, section.feature h4, section.feature h5 {
+section.feature h1 {
+  margin-top:0;
+}
+
+section.feature ul {
+  text-align:left;
+}
+
+section.feature a,  section.feature h1, section.feature h2, section.feature h3, section.feature h4, section.feature h5 {
   color:#fff;
 }
 

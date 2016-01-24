@@ -1,1 +1,6 @@
 /* CSS Styles for pages */
+
+article .bullets h2 {
+  text-align:left;
+}
+

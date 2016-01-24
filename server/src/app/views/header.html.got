@@ -3,7 +3,13 @@
 {{ end }}
 <nav>
   <ul>
-    <li><a href="http://sendto.click"><i class="fa fa-send fa-2x"></i> Sendto</a></li>
+    <li><a href="http://sendto.click"><i class="fa fa-send"></i> Sendto</a></li>
+    {{ if .current_user.Anon }}
+    <li class="right"><a href="/users/login">Login</a></li>
+    <li class="right"><a href="/users/login">Register</a></li>
+    {{ else }}
+    <li class="right"><a href="/users/me">{{.current_user.Name}}</a></li>
+    {{ end }}
   </ul>
 </nav>
   

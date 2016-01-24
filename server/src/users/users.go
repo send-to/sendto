@@ -156,3 +156,13 @@ func (m *User) Update(params map[string]string) error {
 func (m *User) Destroy() error {
 	return Query().Where("id=?", m.Id).Delete()
 }
+
+// Anon returns true if this user is not logged in
+func (m *User) Anon() bool {
+	return m.Role == 0
+}
+
+// Admin returns true for admin users
+func (m *User) Admin() bool {
+	return m.Role == 100
+}
