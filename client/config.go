@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/user"
+	"path"
 	"path/filepath"
 )
 
@@ -75,12 +75,18 @@ func SaveConfig() error {
 func setupConfig() error {
 	Config = make(map[string]string, 0)
 
-	// Get hold of the current user details
+	// Use the home dir as a default sender name
+	name := path.Base(homePath())
+
 	u, err := user.Current()
-	if err != nil {
-		return err
+	// Recover gracefully from lack of user.Current() on other platforms
+	// only set if this is supported
+	if err == nil && u.Name != "" {
+		name = u.Name
 	}
-	Config["sender"] = u.Name
+
+	// Set up a default config, pointing to sendto.click
+	Config["sender"] = name
 	Config["keyserver"] = "https://sendto.click/users/%s/key"
 	Config["server"] = "https://sendto.click"
 
@@ -89,12 +95,15 @@ func setupConfig() error {
 }
 
 func configPath() string {
-	usr, err := user.Current()
-	if err != nil {
-		log.Fatalf("Error loading config: %s\n", err)
-		return ""
+	return filepath.Join(homePath(), ".sendto")
+}
+
+func homePath() string {
+	home := os.Getenv("HOME")
+	if home == "" {
+		home = os.Getenv("USERPROFILE")
 	}
-	return filepath.Join(usr.HomeDir, ".sendto")
+	return home
 }
 
 func configFilePath() string {
