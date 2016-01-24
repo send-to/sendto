@@ -33,7 +33,7 @@
 <section class="container">
 <h2>or if you prefer install from source</h2>
 <p>Geeks can also install from source with</p>
-<pre><code>go get github.com/gophergala2016/sendto</code></pre>
+<pre><code>go get github.com/send-to/sendto</code></pre>
 <p>and send files using the command </p>
 <pre><code>sendto {{ .user.Name }} path/to/your/files</code></pre>
 </section>

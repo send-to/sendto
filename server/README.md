@@ -1,38 +1,45 @@
-# fragmenta-app
-A minimal website built with fragmenta, with only a home page and minimal styling.
+<img src="https://raw.githubusercontent.com/gophergala2016/sendto/master/images/logo.png">
 
-## Gettting Started
-To create a copy of this app, run:
+# Sendto
 
-fragmenta new $GOPATH/src/my/app/name app
+Sendto is a quick way for people to send you encrypted files and folders, without knowing anything about encryption, keys or passwords. 
 
-Then cd to your new app and run migrations:
+* No key generation or passwords. Sendto lets users use your PGP public key to encrypt files for you, and uploads them to the server encrypted for you to download. There is no difficult dance of sending keys or passwords on an insecure channel, or complex software for them to master. 
+* Files encrypted at all times. Sendto cannot open your files because it only knows about your public key, so it can encrypt but never decrypt. TLS is also used for all connections. 
+* Open Source. Sendto is completely open source, so that you can verify what happens to your files, and run it on your own server if you prefer self-hosting. 
 
-fragmenta migrate
-
-Then run the server:
-
-fragmenta
+![Sendto](https://raw.githubusercontent.com/gophergala2016/sendto/master/images/sendto.png?s=600)
 
 
+### Receive files securely
 
-## App Structure
+Just send people a link to your profile, and they can download an app for their platform to send you encrypted files. After that download, on Mac OS X they can send you code just by right clicking a file or folder and choosing Services > Send to YOURNAME, at which point you can see it on the website. Other platforms at present have a command line app, but will have drag and drop. 
 
-#### server.go
-This is the main entrypoint for the application. The structure of other parts of the application is dictated by what you need from it. 
+Try out sending a file to my profile: https://sendto.click/kennygrant, or set up your own.
 
-#### The src folder
-This is a suggested structure for an application, the structure used is entirely up to you, if you prefer you don't have to use a src folder. 
+### Team
+@kennygrant on twitter, github, keybase.io, sendto.click
+
+### Tech
+* Go 1.4
+* PGP Encryption : Go Std library
+* Web Framework: Fragmenta
+* Web Server: Caddy
+* Database: Postgresql
+
+### Try it
+https://sendto.click
 
 
-#### The src/app folder
-This contains general app files, resources like pages or users should go in a separate pkg.
+### Open source on github
+go get github.com/send-to
 
+This app is open source so that you can build it yourself, and check what it does. If you have Go installed, you can also install the client and server from source with:
 
-#### The src/lib folder
+`go get github.com/send-to/sendto`
 
-lib is used to store utility packages which can be used by several parts of the app. Some examples of libraries are included, but unused in this example application. 
+and then use the sendto command:
 
-#### The src/lib/templates folder
+`sendto help` 
 
-Templates for generating new resources are stored in here and used by fragmenta generate to generate a new resource package, containing assets, code and views.  
+you can host the server yourself if you prefer to have complete control. 
