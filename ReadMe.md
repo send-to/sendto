@@ -15,17 +15,17 @@ Sendto is a quick way for people to send you encrypted files and folders, withou
 
 Just send people a link to your profile, and they can download an app for their platform to send you encrypted files. After that download, on Mac OS X they can send you code just by right clicking a file or folder and choosing Services > Send to YOURNAME, at which point you can see it on the website. Other platforms at present have a command line app, but will have drag and drop. 
 
-Try out sending a file to my profile: sendto.click/kennygrant, or set up your own.
+Try out sending a file to my profile: https://sendto.click/kennygrant, or set up your own.
 
 ### Team
-@kennygrant on twitter, github, keybase.io
+@kennygrant on twitter, github, keybase.io, sendto.click
 
 ### Tech
-Go 1.4
-PGP Encryption : Go Std library
-Web Framework: Fragmenta
-Web Server: Caddy
-Database: Postgresql
+* Go 1.4
+* PGP Encryption : Go Std library
+* Web Framework: Fragmenta
+* Web Server: Caddy
+* Database: Postgresql
 
 ### Try it
 https://sendto.click
