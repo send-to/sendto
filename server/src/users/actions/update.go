@@ -18,7 +18,7 @@ func HandleUpdateShow(context router.Context) error {
 	}
 
 	// Authorise update user
-	err = authorise.ResourceAndAuthenticity(context, user)
+	err = authorise.Resource(context, user)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}
@@ -40,7 +40,7 @@ func HandleUpdate(context router.Context) error {
 	}
 
 	// Authorise update user
-	err = authorise.Resource(context, user)
+	err = authorise.ResourceAndAuthenticity(context, user)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}

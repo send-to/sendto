@@ -16,7 +16,7 @@
     
     <section class="inline-fields">
       {{ field "Email (optional)" "email" .user.Email }}
-      {{ field "Password" "password" .user.Password "type=password"}}
+      {{ field "Password" "password" "" "type=password autocomplete=off"}}
     
     </section>
     <section class="wide-fields">
