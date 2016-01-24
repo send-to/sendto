@@ -4,9 +4,9 @@
 echo "UPLOADING...";
 
 # choose a playbook
-playbook="./fragmenta-app.yml"
+playbook="/Users/kenny/Documents/Work/Server/Ansible/sendto.yml"
 if [ "$1" == "production" ]; then
-    playbook="./fragmenta-app-production.ymll"
+    playbook="/Users/kenny/Documents/Work/Server/Ansible/sendto.yml"
 fi
 
 # Upload
