@@ -1,11 +1,42 @@
 <article>
 <section class="container">
 <h1>{{ .user.Name }} <a href="/users/{{.user.Id}}/key"><i class="fa fa-key"></i></a></h1>
-<p>To send files to this user, follow the instructions for your platform below, and then run the program, giving it the username and the location of the files you wish to send.</p>
+<p>To send files to {{.user.Name}}, follow the instructions to install for your platform below, and then run the program, giving it the username and the location of the files you wish to send. On Mac OS X you can either use the command below, or right click any file to send files, on other platforms there is a command line tool available.</p>
 <pre><code>sendto {{ .user.Name }} path/to/your/files</code></pre>
 <p>The program will then archive and encrypt the files and post them to the account of {{ .user.Name }} on sendto.</p>
+<p class="clear"></p>
 </section>
 
+<section class="feature">
+<p><br></p>
+<h2>Install</h2>
+<div class="container">
+<p class="padded">To send files to {{.user.Name}}, download the file for your platform below, and follow the instructions. You only have to do this once, and on Mac OS X you'll be able to right click any file and send it straight away. Other platforms are still in beta and have a command line tool only.</p>
+</div>
+<div class="row container">
+<div class="four columns">
+<h3><a href="/assets/download/mac.zip"><i class="fa fa-apple fa-4x"></i><br>Mac (64 bit)</a></h3><br>
+<a class="button" href="/assets/download/mac.zip">Download</a>
+</div>
+<div class="four columns">
+<h3><a href="/assets/download/linux.zip"><i class="fa fa-linux fa-4x"></i><br>Linux (64 bit)</a></h3><br>
+<a class="button" href="/assets/download/linux.zip">Download</a>
+</div>
+<div class="four columns">
+<h3><a href="/assets/download/windows.zip"><i class="fa fa-windows fa-4x"></i><br>Windows (64 bit)</a></h3><br>
+<a class="button" href="/assets/download/windows.zip">Download</a>
+</div>
+</div>
+<p><br><br></p>
+</section>
+
+<section class="container">
+<h2>or if you prefer install from source</h2>
+<p>Geeks can also install from source with</p>
+<pre><code>go get github.com/gophergala2016/sendto</code></pre>
+<p>and send files using the command </p>
+<pre><code>sendto {{ .user.Name }} path/to/your/files</code></pre>
+</section>
 {{ if (.current_user.IsUser .user) }}
   <section class="center">
   <a class="button" href="/files">View your files</a>
