@@ -1,6 +1,6 @@
 <article>
 <section class="container">
-<h1>{{ .user.Name }} <a href="/users/{{.user.Id}}/key"><i class="fa fa-key"></i></a></h1>
+<h1>{{ .user.Name }} <a href="/users/{{.user.Name}}/key"><i class="fa fa-key"></i></a></h1>
 <p>To send files to {{.user.Name}}, follow the instructions to install for your platform below, and then run the program, giving it the username and the location of the files you wish to send. On Mac OS X you can either use the command below, or right click any file to send files, on other platforms there is a command line tool available.</p>
 <pre><code>sendto {{ .user.Name }} path/to/your/files</code></pre>
 <p>The program will then archive and encrypt the files and post them to the account of {{ .user.Name }} on sendto.</p>
