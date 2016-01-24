@@ -57,7 +57,7 @@ func AuthenticityTokenFilter(c router.Context) error {
 	if err != nil {
 		return err
 	}
-	c.Set("authenticity_token", token)
+	c.Set(auth.SessionTokenKey, token)
 	return nil
 }
 
@@ -66,6 +66,7 @@ func AuthenticityToken(context router.Context) error {
 	token := context.Param(auth.SessionTokenKey)
 	err := auth.CheckAuthenticityToken(token, context.Request())
 	if err != nil {
+
 		// If the check fails, log out the user and completely clear the session
 		context.Logf("#warn invalid authenticity token at %v", context)
 		session, err := auth.SessionGet(context.Request())

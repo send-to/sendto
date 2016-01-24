@@ -18,7 +18,7 @@ func HandleUpdateShow(context router.Context) error {
 	}
 
 	// Authorise update page
-	err = authorise.ResourceAndAuthenticity(context, page)
+	err = authorise.Resource(context, page)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}
@@ -30,7 +30,7 @@ func HandleUpdateShow(context router.Context) error {
 	return view.Render()
 }
 
-// HandleUpdateShow handles the POST of the form to update a page
+// HandleUpdate handles the POST of the form to update a page
 func HandleUpdate(context router.Context) error {
 
 	// Find the page
@@ -40,7 +40,7 @@ func HandleUpdate(context router.Context) error {
 	}
 
 	// Authorise update page
-	err = authorise.Resource(context, page)
+	err = authorise.ResourceAndAuthenticity(context, page)
 	if err != nil {
 		return router.NotAuthorizedError(err)
 	}

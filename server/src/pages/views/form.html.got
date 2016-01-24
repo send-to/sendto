@@ -21,9 +21,9 @@
           {{ template "lib/editable/views/editable-toolbar.html.got"}}
           <textarea name="text" class="content-textarea" id="page-content-textarea">{{.page.Text}}</textarea>
           <div contenteditable class="content-editable" id="page-content-editable">{{html .page.Text}}</div>
-       </section>
+  </section>
     
 
-    <input name="authenticity-token" type="hidden" value="{{.authenticity_token}}">
+  <input name="authenticity_token" type="hidden" value="{{.authenticity_token}}">
 </form>
 </div>

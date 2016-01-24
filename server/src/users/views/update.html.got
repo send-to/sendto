@@ -2,7 +2,7 @@
 <h1>{{.user.Name}}</h1>
 <div class="container">
 <form method="post" class="resource-update-form">
-  <input name="authenticity-token" type="hidden" value="{{.authenticity_token}}">
+  <input name="authenticity_token" type="hidden" value="{{.authenticity_token}}">
  
     <section class="actions">
         <input type="submit" class="button" value="Save">
@@ -23,7 +23,7 @@
       {{ textarea "Key" "key" .user.Key }}
     </section>
 
-    <input name="authenticity-token" type="hidden" value="{{.authenticity_token}}">
+    <input name="authenticity_token" type="hidden" value="{{.authenticity_token}}">
 </form>
 </div>
 </article>

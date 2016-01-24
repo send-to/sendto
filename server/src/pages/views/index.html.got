@@ -1,13 +1,14 @@
 <article>
+<section>
 <h1>Pages</h1>
 
 <div class="row">
 <form accept-charset="UTF-8" action="/pages" method="get" class="filter-form">
       <a class="button" href="/pages/create">Add Page</a>
-      <input type="search" name="filter" class="right" placeholder="Search..." value="{{ .filter }}">
+      <input type="search" name="filter" class="" placeholder="Search..." value="{{ .filter }}">
 </form>
 </div>
-
+</section>
 <div class="row">
 <table class="data-table">
     {{ $0 := . }}
