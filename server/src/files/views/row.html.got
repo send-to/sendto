@@ -2,6 +2,9 @@
     <tr class="data-table-head">
         <td>Name</td>
         <td>Sender</td>
+        {{ if .current_user.Admin }}
+        <td>Recipient</td>
+        {{ end }}
         <td>Updated</td>
         <td></td>
     </tr>
@@ -9,6 +12,9 @@
     <tr {{ if odd .i }}class="odd"{{end}}>
         <td><a href="/files/{{.file.Id}}/download">{{ .file.Name }}</a></td>
         <td>{{ .file.Sender }}</td>
+        {{ if .current_user.Admin}}
+        <td><a href="/users/{{ .file.UserID }}">{{ .file.UserID }}</a></td>
+        {{ end }}
         <td>{{ time .file.UpdatedAt }}</td>
         <td><a href="/files/{{.file.Id}}/destroy" method="post">Delete</a></td>
     </tr>

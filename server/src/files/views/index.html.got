@@ -10,7 +10,7 @@
 <div class="row">
 <table class="data-table">
     {{ $0 := . }}
-    {{ template "files/views/row.html.got" empty }}
+    {{ template "files/views/row.html.got" . }}
     {{ range $i,$m := .files }}
        {{ set $0 "i" $i }}
        {{ set $0 "file" $m }}
