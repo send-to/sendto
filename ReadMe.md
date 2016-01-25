@@ -1,6 +1,4 @@
-<img src="https://raw.githubusercontent.com/gophergala2016/sendto/master/images/logo.png">
-
-# Sendto
+<h1 style="color:#05afe7;"><img src="https://raw.githubusercontent.com/gophergala2016/sendto/master/images/logo-sml.png" height=24 width=24> Sendto</h1>
 
 Sendto is a quick way for people to send you encrypted files and folders, without knowing anything about encryption, keys or passwords. 
 
@@ -30,7 +28,7 @@ Once files are uploaded to your account, you're able to view and download them b
 ![Sendto](https://raw.githubusercontent.com/gophergala2016/sendto/master/images/files.png?s=600)
 
 ### Team
-@kennygrant on twitter, github, keybase.io, sendto.click
+@kennygrant on twitter, <a href="https://github.com/kennygrant">github</a>, <a href="https://keybase.io/kennygrant">keybase.io</a>, <a href="https://sendto.click/users/kennygrant">sendto.click</a>
 
 ### Tech
 * Go 1.4
