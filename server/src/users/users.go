@@ -227,7 +227,12 @@ func (m *User) Anon() bool {
 
 // Admin returns true for admin users
 func (m *User) Admin() bool {
-	return m.Role == 100
+	return m.Role == RoleAdmin
+}
+
+// Customer returns true for customers signed in
+func (m *User) Customer() bool {
+	return m.Role == RoleCustomer
 }
 
 // IsUser return true if the user given is this user

@@ -5,14 +5,15 @@
     <li><a href="/users">Users</a></li>
     <li><a href="/pages">Pages</a></li>
     <li><a href="/files">Files</a></li>
-    {{ end }}
-    
-    {{ if .current_user.Anon }}
-    <li class="right"><a href="/users/login">login</a></li>
-    <li class="right"><a href="/users/create">register</a></li>
-    {{ else }}
     <li class="right"><a href="/users/logout" method="post" data-redirect="/">logout</a></li>
     <li class="right"><a href="/users/{{.current_user.Name}}">{{.current_user.Name}}</a></li>
+    {{ else if .current_user.Customer }}
+    <li><a href="/files">My Files</a></li>
+    <li class="right"><a href="/users/logout" method="post" data-redirect="/">logout</a></li>
+    <li class="right"><a href="/users/{{.current_user.Name}}">{{.current_user.Name}}</a></li>
+    {{ else }}
+    <li class="right"><a href="/users/login">login</a></li>
+    <li class="right"><a href="/users/create">register</a></li>
     {{ end }}
   </ul>
 </nav>
