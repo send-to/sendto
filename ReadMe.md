@@ -1,4 +1,4 @@
-<h1 style="color:#05afe7;"><img src="https://raw.githubusercontent.com/gophergala2016/sendto/master/images/logo-sml.png" height=24 width=24> Sendto</h1>
+<h1><img src="https://raw.githubusercontent.com/gophergala2016/sendto/master/images/logo-sml.png" height=32 width=32> Sendto</h1>
 
 Sendto is a quick way for people to send you encrypted files and folders, without knowing anything about encryption, keys or passwords. 
 
