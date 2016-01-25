@@ -21,7 +21,7 @@ This shows the public key, and a set of download links. Download the binary for 
 
 this will send the file to the demo account. You won't be able to download it though, as you need your own profile to access uploaded files. Please only send test files to the demo account. 
 
-Once you've tried the demo, if you have a keybase.io account, try setting up as we can pull keys automatically from keybase.io. No email is required for sign up at this time. 
+Once you've tried the demo, if you have a pgp key, or a keybase.io account, try setting up a user. The server can pull keys automatically from keybase.io so setup is easy. No email is required for sign up at this time. 
 
 Once files are uploaded to your account, you're able to view and download them by logging in. Decryption happens on your machine, so that your private keys are never shared with the server. 
 
