@@ -32,7 +32,7 @@ Once files are uploaded to your account, you're able to view and download them b
 
 ### Tech
 * Go 1.4
-* PGP Encryption : Go Std library
+* PGP Encryption : golang.org/x/crypto/openpgp
 * Web Framework: Fragmenta
 * Web Server: Caddy
 * Database: Postgresql
