@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/gophergala2016/sendto/client"
+	"github.com/send-to/sendto/client"
 )
 
 const (
