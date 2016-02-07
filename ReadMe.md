@@ -1,13 +1,10 @@
-<h1><img src="https://raw.githubusercontent.com/gophergala2016/sendto/master/images/logo-sml.png" height=32 width=32> Sendto</h1>
+<h1><img src="https://sendto.click/images/logo.png" height=32 width=32> Sendto</h1>
 
 Sendto is a quick way for people to send you encrypted files and folders, without knowing anything about encryption, keys or passwords. 
 
 * No key generation or passwords. Sendto lets users use your PGP public key to encrypt files for you, and uploads them to the server encrypted for you to download. There is no difficult dance of sending keys or passwords on an insecure channel, or complex software for them to master. 
 * Files encrypted at all times. Sendto cannot open your files because it only knows about your public key, so it can encrypt but never decrypt. TLS is also used for all connections. 
-* Open Source. Sendto is completely open source, so that you can verify what happens to your files, and run it on your own server if you prefer self-hosting. 
-
-![Sendto](https://raw.githubusercontent.com/gophergala2016/sendto/master/images/sendto.png?s=600)
-
+* Open Source. Sendto is completely open source, so that you can verify what happens to your files, and run it on your own server if you prefer self-hosting. Encryption uses the google library: golang.org/x/crypto/openpgp.
 
 ### Receive files securely
 
@@ -25,21 +22,9 @@ Once you've tried the demo, if you have a pgp key, or a keybase.io account, try 
 
 Once files are uploaded to your account, you're able to view and download them by logging in. Decryption happens on your machine, so that your private keys are never shared with the server. 
 
-![Sendto](https://raw.githubusercontent.com/gophergala2016/sendto/master/images/files.png?s=600)
-
-### Team
-@kennygrant on twitter, <a href="https://github.com/kennygrant">github</a>, <a href="https://keybase.io/kennygrant">keybase.io</a>, <a href="https://sendto.click/users/kennygrant">sendto.click</a>
-
-### Tech
-* Go 1.4
-* PGP Encryption : Go Std library
-* Web Framework: Fragmenta
-* Web Server: Caddy
-* Database: Postgresql
 
 ### Try it
 https://sendto.click
-
 
 ### Open source on github
 go get github.com/send-to
@@ -52,11 +37,14 @@ and then use the sendto command:
 
 `sendto help` 
 
-you can host the server yourself if you prefer to have complete control. 
+you can host the server yourself if you prefer to have complete control by checking out the server repo:
 
+`go get github.com/send-to/sendtoserver`
 
-### Possible bugs
+### Created by
+@kennygrant on twitter, <a href="https://github.com/kennygrant">github</a>, <a href="https://keybase.io/kennygrant">keybase.io</a>, <a href="https://sendto.click/users/kennygrant">sendto.click</a>. Pull requests welcome.
 
-I haven't had much time to test on Windows, so there may be path issues there. Tested on Mac OS X and linux. The server runs on linux. 
+### Possible bugs and limitations
 
-Keys are cached locally for users (at ~/.sendto), so if you change your key you'd have to remove the prefs locally in order to update it. This needs fixed at some point obviously. 
+* Windows needs paths checked on post - see pull request from mattn
+* Keys are cached locally for users (at ~/.sendto), so if you change your key you'd have to remove the prefs locally in order to update it. This needs fixed at some point obviously. 
