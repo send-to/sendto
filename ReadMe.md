@@ -46,5 +46,6 @@ you can host the server yourself if you prefer to have complete control by check
 
 ### Possible bugs and limitations
 
+* Spaces in user names will break the automator script, and also need quotes on command line - perhaps consider email as username?
 * Windows needs paths checked on post - see pull request from mattn
 * Keys are cached locally for users (at ~/.sendto), so if you change your key you'd have to remove the prefs locally in order to update it. This needs fixed at some point obviously. 
