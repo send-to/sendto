@@ -64,11 +64,13 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 	// Make the user files directory
 	createFolder(filepath.Join("files", recipient))
 
-	// Should caller set the filename required for the zip?
-	// hash of username + time or something? Doesn't really matter but should be unique I guess
-	// it doesn't have to be unique though... just use caller name for now
+	// At present the caller sets the filename - perhaps reconsider as this leaks info - FIXME
 	name := path.Clean(path.Base(args[0]))
+
+	// Create a file at config/files/recipient/name.zip.gpg
 	outPath := filepath.Join(configPath(), "files", recipient, fmt.Sprintf("%s.zip.gpg", name))
+
+	// Create the file
 	out, err := os.Create(outPath)
 	if err != nil {
 		return "", err
@@ -103,6 +105,9 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 			}
 			defer f.Close()
 
+			// We need to add the filename *removing* the current path so that we don't store
+			// an entire path hierarchy to the folder/file FIXME
+
 			// Support unicode filenames by default
 			h := &zip.FileHeader{Name: p, Method: zip.Deflate, Flags: 0x800}
 			z, err := zipWriter.CreateHeader(h)
@@ -131,6 +136,10 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 
 	// close the encPipe to finish the process
 	err = pgpWriter.Close()
+
+	// Make sure the file path returned uses forward slashes on windows
+	// - change from mattn moved here
+	outPath = filepath.ToSlash(outPath)
 
 	return outPath, err
 }
