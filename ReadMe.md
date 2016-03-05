@@ -1,6 +1,6 @@
 <h1><img src="https://avatars3.githubusercontent.com/u/16869703?v=3&s=32" height=32 width=32> Sendto</h1>
 
-Sendto is a quick way for people to send you encrypted files and folders, without knowing anything about encryption, keys or passwords. 
+Sendto is a quick way for people to send you encrypted files and folders, without knowing anything about encryption, keys or passwords. This project was produced for Gopher Gala as a learning project. I am not a cryptographer, the code has not been audited (though it does use a reliable crypto library, it is possible there are vulnerabilities introduced by the usage), so please proceed at your own risk. I don't yet consider this project ready for production but would like to continue the experiment - contributions or suggestions are welcome. 
 
 * No key generation or passwords. Sendto lets users use your PGP public key to encrypt files for you, and uploads them to the server encrypted for you to download. There is no difficult dance of sending keys or passwords on an insecure channel, or complex software for them to master. 
 * Files encrypted at all times. Sendto cannot open your files because it only knows about your public key, so it can encrypt but never decrypt. TLS is also used for all connections. 
