@@ -45,6 +45,17 @@ you can host the server yourself if you prefer to have complete control by check
 @kennygrant on twitter, <a href="https://github.com/kennygrant">github</a>, <a href="https://keybase.io/kennygrant">keybase.io</a>, <a href="https://sendto.click/users/kennygrant">sendto.click</a>. 
 Contributions and pull requests welcome.
 
+### Version History
+
+##### Version 0.1
+* Created for Gopher Gala 2016
+
+##### Version 0.1.1
+* Added warnings to readme, notes on possible bugs
+* Fixed bug - if absolute paths given they should be truncated to the enclosing folder only for zip
+* Added more specific warning on config failure
+
+
 ### Possible bugs and limitations
 
 * Spaces in user names will break the automator script, and also need quotes on command line - perhaps consider email as username?
@@ -54,5 +65,4 @@ Contributions and pull requests welcome.
 * User enumeration is possible by numeric id, and there are no restrictions on who can send you files - neither is particularly desirable - perhaps consider using email as unique identifier and namespace for users?
 * A few usability notes from Matthew - Readme should be updated, zip file for binaries should be named appropriately. 
 * Times are shown in UTC - I rather like this but can see that others might prefer a local time.
-* Full paths for files sent are recorded if absolute paths are given - this is a bug - only the enclosing folder should be zipped. 
 * The sender username should be set by the user (ideally they should be prompted for it) - this ties in with signing above. 

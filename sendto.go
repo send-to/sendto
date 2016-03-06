@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	v = "0.1"
+	v = "0.1.1"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
 	// Load our configuration
 	err := client.LoadConfig()
 	if err != nil {
-		log.Fatalf("Sorry, an error occurred loading config:\n\t%s", err)
+		log.Fatalf("Error reading config: %s", err)
 	}
 
 	switch command {
@@ -49,13 +49,13 @@ func main() {
 	}
 
 	if err != nil {
-		log.Fatalf("Sorry, an error occurred:\n\t%s", err)
+		log.Fatalf("Sorry, an error occurred sending files:\n%s", err)
 	}
 }
 
 // Version prints the version of this app
 func Version() {
-	fmt.Printf("\n\t-----\n\tSend to client - version:%s\n\t-----\n", v)
+	fmt.Printf("\t-----\n\tSend to client - version:%s\n\t-----\n", v)
 }
 
 // Usage returns standard usage as a string

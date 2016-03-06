@@ -19,22 +19,23 @@ func LoadConfig() error {
 	// Create our files folder to store files to send
 	err := createFolder("files")
 	if err != nil {
-		return err
+		return fmt.Errorf("config: create folder error %s", err)
 	}
 
 	// Create our users folder to store public keys downloaded
 	err = createFolder("users")
 	if err != nil {
-		return err
+		return fmt.Errorf("config: create folder error %s", err)
 	}
 
 	// Load our config file (or create a new one with one entry - sender identity)
 	// First check it exists
 	file, err := ioutil.ReadFile(configFilePath())
+	// We tolerate failure here as file may not exist
 	if err == nil {
 		err = json.Unmarshal(file, &Config)
 		if err != nil {
-			return err
+			return fmt.Errorf("config: json error %s", err)
 		}
 	}
 
@@ -42,12 +43,12 @@ func LoadConfig() error {
 	if len(Config) == 0 {
 		err = setupConfig()
 		if err != nil {
-			return err
+			return fmt.Errorf("config: setup error %s", err)
 		}
 
 		err = SaveConfig()
 		if err != nil {
-			return err
+			return fmt.Errorf("config: save error %s", err)
 		}
 
 	}
