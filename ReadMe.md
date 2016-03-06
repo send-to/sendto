@@ -61,11 +61,10 @@ Contributions and pull requests welcome.
 
 ### Possible bugs and limitations
 
-* Spaces in user names will break the automator script, and also need quotes on command line - perhaps consider email as username?
-* Windows needs paths checked on post - see pull request from mattn
-* Keys are cached locally for users (at ~/.sendto), so if you change your key you'd have to remove the prefs locally in order to update it. This needs fixed at some point obviously.
-* Signatures are not yet checked, so no authenticity guarantee is given - we should instead sign if private keys are available locally. 
+* Signatures are not yet checked, so no authenticity guarantee is given - we should instead sign if private keys are available locally, or consider tie-in with keybase.io.
+* The sender username should be set by the user (ideally they should be prompted for it) - this ties in with signing above. 
+* Would be nice to lean on keybase.io if possible more for authentication/getting keys - can be used as key server just now but is not the default - multiple key server support?
+* Keys are cached locally for users (at ~/.sendto), so if you change your key you'd have to remove the prefs locally in order to update it. This needs fixed at some point obviously. 
 * User enumeration is possible by numeric id, and there are no restrictions on who can send you files - neither is particularly desirable - perhaps consider using email as unique identifier and namespace for users?
 * A few usability notes from Matthew - Readme should be updated, zip file for binaries should be named appropriately. 
 * Times are shown in UTC - I rather like this but can see that others might prefer a local time.
-* The sender username should be set by the user (ideally they should be prompted for it) - this ties in with signing above. 
