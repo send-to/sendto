@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"golang.org/x/crypto/openpgp"
@@ -105,8 +106,8 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 			}
 			defer f.Close()
 
-			// We need to add the filename *removing* the current path so that we don't store
-			// an entire path hierarchy to the folder/file FIXME
+			// Remove the current path from name if supplied
+			p = strings.Replace(p, arg, "", 1)
 
 			// Support unicode filenames by default
 			h := &zip.FileHeader{Name: p, Method: zip.Deflate, Flags: 0x800}
