@@ -25,7 +25,7 @@ func main() {
 	// Load our configuration
 	err := client.LoadConfig()
 	if err != nil {
-		log.Fatalf("Sorry, an error occurred:\n\t%s", err)
+		log.Fatalf("Sorry, an error occurred loading config:\n\t%s", err)
 	}
 
 	switch command {
