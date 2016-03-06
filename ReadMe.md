@@ -18,7 +18,7 @@ This shows the public key, and a set of download links. Download the binary for 
 
 this will send the file to the demo account. You won't be able to download it though, as you need your own profile to access uploaded files. Please only send test files to the demo account. 
 
-Once you've tried the demo, if you have a pgp key, or a keybase.io account, try setting up a user. The server can pull keys automatically from keybase.io so setup is easy. No email is required for sign up at this time. 
+Once you've tried the demo, if you have a pgp key, or a keybase.io account, try setting up a user. The server can pull keys automatically from keybase.io so setup is easy. No email is required for sign up at this time. *You MUST use a PGP key*, not any other kind of key.
 
 Once files are uploaded to your account, you're able to view and download them by logging in. Decryption happens on your machine, so that your private keys are never shared with the server. 
 
@@ -55,6 +55,9 @@ Contributions and pull requests welcome.
 * Fixed bug - if absolute paths given they should be truncated to the enclosing folder only for zip
 * Added more specific warning on config failure
 
+##### Version 0.1.2
+* Add detailed errors for encryption/zip
+* Complain if non-pgp key used
 
 ### Possible bugs and limitations
 
