@@ -57,7 +57,7 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 	// First open and parse recipient key
 	publicKey, err := ParsePublicKey(keyPath)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("encrypt: invalid pgp key %s", err)
 	}
 
 	fmt.Printf("Using key: %x\n", publicKey.PrimaryKey.Fingerprint)
@@ -74,7 +74,7 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 	// Create the file
 	out, err := os.Create(outPath)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("encrypt: error on create files %s", err)
 	}
 	defer out.Close()
 
@@ -82,7 +82,7 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 	hints := &openpgp.FileHints{IsBinary: true, FileName: fmt.Sprintf("%s.zip", name), ModTime: time.Now()}
 	pgpWriter, err := openpgp.Encrypt(out, []*openpgp.Entity{publicKey}, nil, hints, nil)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("encrypt: error creating pgp writer %s", err)
 	}
 
 	// Now create a zipwriter, which writes to this pgpWriter
@@ -122,27 +122,30 @@ func EncryptFiles(args []string, recipient string, keyPath string) (string, erro
 			return nil
 		})
 		if err != nil {
-			return "", err
+			return "", fmt.Errorf("zip: error creating zip file %s", err)
 		}
 
 	}
 	err = zipWriter.Flush()
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("zip: error flushing zip file %s", err)
 	}
 	err = zipWriter.Close()
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("zip: error closing zip file %s", err)
 	}
 
 	// close the encPipe to finish the process
 	err = pgpWriter.Close()
+	if err != nil {
+		return "", fmt.Errorf("encrypt: error closing pgp writer %s", err)
+	}
 
 	// Make sure the file path returned uses forward slashes on windows
 	// - change from mattn moved here
 	outPath = filepath.ToSlash(outPath)
 
-	return outPath, err
+	return outPath, nil
 }
 
 // ParsePublicKey parses the given public key file

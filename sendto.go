@@ -116,7 +116,7 @@ func SendTo(recipient string, args []string) error {
 	// Zip and Encrypt our arguments (files or folders) using key
 	dataPath, err := client.EncryptFiles(args, recipient, keyPath)
 	if err != nil {
-		return err
+		return fmt.Errorf("Failed to encrypt: %s", err)
 	}
 
 	// Send the file to the recipient on the server
@@ -126,7 +126,7 @@ func SendTo(recipient string, args []string) error {
 
 	err = client.PostData(client.Config["sender"], recipient, dataPath, postURL)
 	if err != nil {
-		return err
+		return fmt.Errorf("Failed to send: %s", err)
 	}
 
 	return nil
